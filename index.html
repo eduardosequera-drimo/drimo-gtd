@@ -140,8 +140,11 @@ section{padding:44px 0;scroll-margin-top:var(--sticky-h,120px)}
 .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
 @media(max-width:900px){.cards{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;
-  box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;scroll-margin-top:80px}
+  box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .36s cubic-bezier(.2,.7,.2,1),opacity .26s ease,box-shadow .2s;scroll-margin-top:80px}
 .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(0,0,0,.1),0 22px 48px rgba(0,0,0,.14)}
+.card.leaving{opacity:0;transform:scale(.96);pointer-events:none}
+.card.entering{opacity:0;transform:scale(.96)}
+@media(prefers-reduced-motion:reduce){.card{transition:box-shadow .2s}}
 .card.reviewed{outline:2px solid color-mix(in srgb,var(--good) 60%,transparent)}
 .card-head{padding:18px 20px 12px;display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid var(--line)}
 .badge{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;color:#fff}
@@ -531,7 +534,7 @@ function card(s){
       </div>
     </div>`;
   }
-  return `<article class="card ${blocked?'blocked':''}" id="c_${s.id}">
+  return `<article class="card ${blocked?'blocked':''}" id="c_${s.id}" data-id="${s.id}">
     <div class="card-head">
       <div class="meta">
         <span class="badge b-${s.segment}">${s.segment}</span>
@@ -642,7 +645,9 @@ function openDetail(id){
 }
 function closeDetail(){document.getElementById('detail').classList.remove('on');document.body.classList.remove('noscroll');}
 
-function render(){
+// Las cards se renderizan UNA sola vez (nodos persistentes); el filtro solo oculta/reordena con animación FLIP.
+function initCards(){ document.getElementById('cards').innerHTML=DATA.sites.map(card).join(''); }
+function filteredList(){
   const q=document.getElementById('q').value.toLowerCase().trim();
   const country=document.getElementById('country').value;
   const sort=document.getElementById('sort').value;
@@ -655,11 +660,45 @@ function render(){
     const av=a.total==null?-1:a.total,bv=b.total==null?-1:b.total;
     return sort==='score_asc'?av-bv:bv-av;
   });
-  document.getElementById('cards').innerHTML=list.map(card).join('');
+  return {list,country};
+}
+function updateCount(list,country){
   document.getElementById('empty').style.display=list.length?'none':'block';
   const scored=list.filter(s=>s.total!=null);
   const avg=scored.length?Math.round(scored.reduce((a,s)=>a+s.total,0)/scored.length*10)/10:'—';
   document.getElementById('countNote').innerHTML=`Mostrando <b>${list.length}</b> ${list.length===1?'sitio':'sitios'} en <b>${curSeg==='Todos'?'todos los segmentos':curSeg}</b>${country?' · '+country:''} · promedio del filtro <b>${avg}</b>/100`;
+}
+let renderTimer=null;
+function render(instant){
+  const {list,country}=filteredList();
+  const cont=document.getElementById('cards');
+  const wanted=list.map(s=>s.id), wantedSet=new Set(wanted);
+  const reduce=!!instant||matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(renderTimer){clearTimeout(renderTimer);renderTimer=null;}
+  const all=[...cont.querySelectorAll('.card')];
+  all.forEach(el=>{el.classList.remove('leaving','entering');el.style.transform='';el.style.transition='';});
+  const visible=all.filter(el=>el.style.display!=='none');
+  const leaving=visible.filter(el=>!wantedSet.has(el.dataset.id));
+  const finish=()=>{
+    renderTimer=null;
+    // FIRST: posiciones actuales de las que se quedan
+    const first={}; visible.forEach(el=>{if(wantedSet.has(el.dataset.id))first[el.dataset.id]=el.getBoundingClientRect();});
+    // cambios de DOM: ocultar las que salen, mostrar y reordenar las deseadas
+    const entering=new Set();
+    all.forEach(el=>{if(!wantedSet.has(el.dataset.id)){el.style.display='none';el.classList.remove('leaving');}});
+    wanted.forEach(id=>{const el=document.getElementById('c_'+id);if(!el)return;if(el.style.display==='none')entering.add(id);el.style.display='';cont.appendChild(el);});
+    // LAST + INVERT + PLAY (deslizar) para las que se quedan; fade-in para las que entran
+    if(!reduce){
+      wanted.forEach(id=>{const el=document.getElementById('c_'+id);if(!el)return;
+        if(first[id]){const last=el.getBoundingClientRect();const dx=first[id].left-last.left,dy=first[id].top-last.top;
+          if(Math.abs(dx)>1||Math.abs(dy)>1){el.style.transition='none';el.style.transform=`translate(${dx}px,${dy}px)`;void el.offsetWidth;el.style.transition='';el.style.transform='';}
+        }else if(entering.has(id)){el.classList.add('entering');requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.remove('entering')));}
+      });
+    }
+    updateCount(list,country);
+  };
+  if(leaving.length&&!reduce){leaving.forEach(el=>el.classList.add('leaving'));renderTimer=setTimeout(finish,220);}
+  else finish();
 }
 function patCard(p){
   return `<div class="pat">
@@ -812,7 +851,7 @@ function initFoot(){
    <p>${DATA.meta.note||''}</p>
    <p class="small">Benchmark generado el ${DATA.meta.date||''} · capturas propias de los sitios públicos · se respetó robots.txt y no se accedió a áreas privadas ni portales tras inicio de sesión.</p>`;
 }
-initStats();initTabs();initCharts();initPatterns();initWire();initNav();initBgFx();initFoot();render();
+initStats();initTabs();initCharts();initPatterns();initWire();initNav();initBgFx();initFoot();initCards();render(true);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('lb').classList.remove('on');closeDetail();}});
 </script>
 </body>
