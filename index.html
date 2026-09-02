@@ -16,7 +16,7 @@
 }
 :root[data-theme="dark"]{
   --bg:#1E2734; --bg2:#253141; --card:#253141; --ink:#F8FAFC; --ink2:#94A3B8;
-  --line:#2F3D51; --line2:#3a4a60; --brand:#5D41E6; --accent:#9282FF; --accent2:#6E56F2;
+  --line:#2F3D51; --line2:#3a4a60; --brand:#5D41E6; --accent:#a99bff; --accent2:#6E56F2;
   --good:#34d399; --mid:#fbbf24; --bad:#fb7185; --shadow:0 1px 2px rgba(0,0,0,.5),0 16px 44px rgba(0,0,0,.45);
   --b2b:#6366f1; --b2c:#a855f7; --cyber:#22a7c4;
 }
@@ -62,7 +62,7 @@ header.hero{padding:64px 0 40px;border-bottom:1px solid var(--line);
 select,input[type=search]{border:1px solid var(--line2);background:var(--card);color:var(--ink);
   border-radius:999px;padding:7px 13px;font-size:13px;font-family:inherit}
 .spacer{flex:1}
-.themetgl{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:16px}
+.themetgl{width:38px;height:38px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:16px;line-height:1;flex:none}
 
 section{padding:44px 0}
 .sec-title{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
@@ -82,7 +82,7 @@ section{padding:44px 0}
 .chip:hover{border-color:var(--accent);color:var(--ink)}
 .chip.active{background:var(--brand);border-color:var(--brand);color:#fff}
 .panel-note{font-size:11.5px;color:var(--ink2);margin:0 0 14px;font-family:"JetBrains Mono",ui-monospace,monospace}
-.panel-hint{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10.5px;color:var(--ink2);opacity:.8}
+.panel-hint{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10.5px;color:var(--ink2)}
 .bar-row{display:grid;grid-template-columns:150px 1fr 42px;align-items:center;gap:12px;margin:7px 0;font-size:12.5px}
 .bar-row .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink2)}
 .bar-track{height:12px;background:var(--bg2);border-radius:6px;overflow:hidden}
@@ -107,11 +107,11 @@ section{padding:44px 0}
 .card-head .meta{flex:1;min-width:0}
 .card-head h3{margin:0;font-size:19px;letter-spacing:-.01em}
 .card-head .sub{font-size:12.5px;color:var(--ink2);margin-top:3px}
-.score-ring{width:62px;height:62px;flex:none;border-radius:50%;display:grid;place-items:center;position:relative;
+.score-ring{width:62px;height:62px;flex:none;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;
   background:conic-gradient(var(--ring) calc(var(--pct)*1%),var(--bg2) 0)}
 .score-ring::before{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--card)}
-.score-ring b{position:relative;font-family:"Inter",system-ui,sans-serif;font-size:22px;font-weight:800;letter-spacing:-.02em}
-.score-ring small{position:relative;font-size:9px;color:var(--ink2);margin-top:-3px}
+.score-ring b{position:relative;font-family:"Inter",system-ui,sans-serif;font-size:21px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.score-ring small{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:8px;letter-spacing:.02em;color:var(--ink2);line-height:1}
 
 .shots{display:flex;gap:8px;padding:14px 20px;overflow-x:auto;background:var(--bg2)}
 .shots figure{margin:0;flex:none;width:210px}
@@ -125,7 +125,7 @@ section{padding:44px 0}
 .bd-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-size:12px}
 .bd-row .lbl{color:var(--ink)}
 .bd-row .sc{font-variant-numeric:tabular-nums;white-space:nowrap}
-.wt{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9.5px;color:var(--accent);background:color-mix(in srgb,var(--brand) 12%,transparent);border:1px solid color-mix(in srgb,var(--brand) 22%,transparent);border-radius:5px;padding:1px 5px;margin-left:4px;vertical-align:middle}
+.wt{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9.5px;font-weight:600;color:var(--accent);background:color-mix(in srgb,var(--brand) 18%,transparent);border:1px solid color-mix(in srgb,var(--brand) 34%,transparent);border-radius:5px;padding:1px 5px;margin-left:4px;vertical-align:middle}
 .deep dt .wt{margin-left:6px}
 .bd-bar{grid-column:1/3;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;margin-top:-2px}
 .bd-bar i{display:block;height:100%;border-radius:3px}
@@ -142,9 +142,10 @@ details.deep summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(-
 details.deep summary::-webkit-details-marker{display:none}
 details.deep summary::before{content:"▸ ";}
 details.deep[open] summary::before{content:"▾ ";}
-.deep dl{margin:12px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:12.5px}
-.deep dt{color:var(--accent);font-weight:600;white-space:nowrap}
-.deep dd{margin:0;color:var(--ink)}
+.deep dl{margin:12px 0 0;font-size:12.5px}
+.deep dt{color:var(--accent);font-weight:700;margin:14px 0 4px;line-height:1.4;overflow-wrap:anywhere}
+.deep dt:first-of-type{margin-top:2px}
+.deep dd{margin:0;color:var(--ink);line-height:1.55;padding-left:11px;border-left:2px solid var(--line2);overflow-wrap:anywhere}
 .card-foot{display:flex;align-items:center;gap:12px;padding:14px 20px;border-top:1px solid var(--line);flex-wrap:wrap}
 .chk{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;user-select:none}
 .chk input{width:17px;height:17px;accent-color:var(--good)}
@@ -192,8 +193,8 @@ mark{background:color-mix(in srgb,var(--accent) 26%,transparent);color:inherit;p
     <div class="row">
       <div class="seg-tabs row" id="segTabs"></div>
       <div class="spacer"></div>
-      <input type="search" id="q" placeholder="Buscar marca…" oninput="render()">
-      <select id="country" onchange="render()"></select>
+      <input type="search" id="q" placeholder="Buscar marca…" oninput="render();renderCompChart()">
+      <select id="country" onchange="render();renderCompChart()"></select>
       <select id="sort" onchange="render()">
         <option value="score">Orden: puntuación ↓</option>
         <option value="score_asc">Puntuación ↑</option>
@@ -281,15 +282,23 @@ function animateBars(scope){
 }
 function renderCompChart(){
   const all=curSeg==='Todos';
-  const scored=DATA.sites.filter(x=>x.status==='ok'&&x.total!=null&&(all||x.segment===curSeg)).slice().sort((a,b)=>b.total-a.total);
-  document.getElementById('chartComp').innerHTML=scored.map(s=>`
+  const q=(document.getElementById('q').value||'').toLowerCase().trim();
+  const country=document.getElementById('country').value;
+  let scored=DATA.sites.filter(x=>x.status==='ok'&&x.total!=null&&(all||x.segment===curSeg));
+  if(country)scored=scored.filter(s=>s.country===country);
+  if(q)scored=scored.filter(s=>(s.brand+' '+s.country).toLowerCase().includes(q));
+  scored=scored.slice().sort((a,b)=>b.total-a.total);
+  const cont=document.getElementById('chartComp');
+  if(!scored.length){cont.innerHTML='<div class="empty" style="padding:24px 0">Sin resultados con estos filtros.</div>';}
+  else cont.innerHTML=scored.map(s=>`
     <div class="bar-row">
       <span class="nm" title="${s.brand} · ${s.country} · ${s.segment}"><span class="dot" style="background:${SEGCOLORS[s.segment]}"></span>${s.brand} <span class="mut" style="font-size:10.5px">${s.country}</span></span>
       <div class="bar-track"><div class="bar-fill" style="width:0;background:${scoreColor(s.total)}" data-w="${s.total}"></div></div>
       <span class="vv">${s.total}</span>
     </div>`).join('');
   const avg=scored.length?Math.round(scored.reduce((a,s)=>a+s.total,0)/scored.length*10)/10:'—';
-  document.getElementById('compNote').textContent=`${scored.length} ${scored.length===1?'sitio':'sitios'}${all?' · todos los segmentos':' · '+curSeg} · promedio ${avg}/100`;
+  const segLbl=all?'todos los segmentos':curSeg;
+  document.getElementById('compNote').textContent=`${scored.length} ${scored.length===1?'sitio':'sitios'} · ${segLbl}${country?' · '+country:''}${q?' · "'+q+'"':''} · promedio ${avg}/100`;
   animateBars('#chartComp');
 }
 function initCharts(){
