@@ -65,7 +65,18 @@ select,input[type=search]{border:1px solid var(--line2);background:var(--card);c
 .spacer{flex:1}
 .themetgl{width:38px;height:38px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:16px;line-height:1;flex:none}
 
-section{padding:44px 0}
+section{padding:44px 0;scroll-margin-top:120px}
+.secnav{display:flex;gap:3px;flex-wrap:wrap;align-items:center;padding-bottom:9px;margin-bottom:9px;border-bottom:1px solid var(--line)}
+.secnav a{font-size:12.5px;font-weight:600;color:var(--ink2);text-decoration:none;padding:5px 12px;border-radius:8px;transition:color .15s,background .15s;white-space:nowrap}
+.secnav a:hover{color:var(--ink);background:var(--bg2)}
+.secnav a.active{color:var(--accent);background:color-mix(in srgb,var(--brand) 15%,transparent)}
+@media(max-width:640px){.secnav a{font-size:11.5px;padding:5px 9px}}
+.totop{position:fixed;right:22px;bottom:22px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line2);
+  background:var(--card);color:var(--accent);font-size:20px;line-height:1;cursor:pointer;display:none;align-items:center;justify-content:center;
+  box-shadow:0 8px 26px rgba(0,0,0,.32);z-index:80;transition:transform .16s,background .16s,color .16s,border-color .16s}
+.totop.show{display:inline-flex}
+.totop:hover{transform:translateY(-3px);background:var(--brand);color:#fff;border-color:var(--brand)}
+@media(max-width:640px){.totop{right:16px;bottom:16px;width:42px;height:42px}}
 .sec-title{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
 .sec-title h2{font-size:26px;margin:0;letter-spacing:-.01em}
 .sec-sub{color:var(--ink2);margin:0 0 26px;max-width:760px}
@@ -216,6 +227,7 @@ mark{background:color-mix(in srgb,var(--accent) 26%,transparent);color:inherit;p
 </head>
 <body>
 <div class="lb" id="lb" onclick="this.classList.remove('on')"><img id="lbimg" src=""></div>
+<button id="toTop" class="totop" aria-label="Volver arriba" title="Volver arriba">↑</button>
 
 <header class="hero">
   <div class="wrap">
@@ -229,6 +241,12 @@ mark{background:color-mix(in srgb,var(--accent) 26%,transparent);color:inherit;p
 
 <div class="toolbar">
   <div class="wrap">
+    <nav class="secnav" id="secnav">
+      <a href="#dash" data-sec="dash">Panorama</a>
+      <a href="#listado" data-sec="listado">Fichas por competidor</a>
+      <a href="#patrones" data-sec="patrones">Biblioteca de patrones</a>
+      <a href="#arquitectura" data-sec="arquitectura">Arquitectura sugerida</a>
+    </nav>
     <div class="row">
       <div class="seg-tabs row" id="segTabs"></div>
       <div class="spacer"></div>
@@ -511,6 +529,21 @@ function initWire(){
   renderWire();
   initWireTips();
 }
+function initNav(){
+  const links=[...document.querySelectorAll('.secnav a')];
+  const map={}; links.forEach(a=>map[a.dataset.sec]=a);
+  const ids=['dash','listado','patrones','arquitectura'];
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(es=>{
+      es.forEach(e=>{ if(e.isIntersecting){ links.forEach(l=>l.classList.remove('active')); const a=map[e.target.id]; if(a)a.classList.add('active'); } });
+    },{rootMargin:'-45% 0px -50% 0px',threshold:0});
+    ids.forEach(id=>{const el=document.getElementById(id); if(el)io.observe(el);});
+  }
+  const bt=document.getElementById('toTop');
+  const onScroll=()=>{const y=window.scrollY||document.documentElement.scrollTop||document.body.scrollTop||0; bt.classList.toggle('show',y>600);};
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+}
 function initFoot(){
   document.getElementById('foot').innerHTML=`
    <div class="legend">
@@ -524,7 +557,7 @@ function initFoot(){
    <p>${DATA.meta.note||''}</p>
    <p class="small">Benchmark generado el ${DATA.meta.date||''} · capturas propias de los sitios públicos · se respetó robots.txt y no se accedió a áreas privadas ni portales tras inicio de sesión. Las casillas de “revisada” y tus notas se guardan en este navegador (localStorage).</p>`;
 }
-initStats();initTabs();initCharts();initPatterns();initWire();initFoot();render();
+initStats();initTabs();initCharts();initPatterns();initWire();initNav();initFoot();render();
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lb').classList.remove('on')});
 </script>
 </body>
