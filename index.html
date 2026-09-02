@@ -33,6 +33,7 @@ html{scroll-behavior:smooth;background:var(--bg)}
 @keyframes drift1{0%,100%{translate:0 0}50%{translate:38px 26px}}
 @keyframes drift2{0%,100%{translate:0 0}50%{translate:-36px -22px}}
 @media(prefers-reduced-motion:reduce){.orb{animation:none}}
+.bgfx-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:.6}
 body{margin:0;background:transparent;color:var(--ink);
   font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
@@ -243,7 +244,7 @@ mark{background:color-mix(in srgb,var(--accent) 26%,transparent);color:inherit;p
 </style>
 </head>
 <body>
-<div class="bgfx" id="bgfx" aria-hidden="true"><span class="orb orb1"></span><span class="orb orb2"></span><span class="orb orb3"></span></div>
+<div class="bgfx" id="bgfx" aria-hidden="true"><span class="orb orb1"></span><span class="orb orb2"></span><span class="orb orb3"></span><canvas class="bgfx-canvas" id="bgcanvas"></canvas></div>
 <div class="lb" id="lb" onclick="this.classList.remove('on')"><img id="lbimg" src=""></div>
 <button id="toTop" class="totop" aria-label="Volver arriba" title="Volver arriba">↑</button>
 
@@ -552,7 +553,41 @@ function initWire(){
   renderWire();
   initWireTips();
 }
+function initParticles(){
+  const canvas=document.getElementById('bgcanvas'); if(!canvas||!canvas.getContext) return;
+  const ctx=canvas.getContext('2d');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  let w=0,h=0,parts=[],mx=-9999,my=-9999,col='#8b7bff',cc=0;
+  const readColor=()=>{col=(getComputedStyle(document.documentElement).getPropertyValue('--accent').trim())||'#8b7bff';};
+  const resize=()=>{const r=canvas.getBoundingClientRect();w=Math.round(r.width)||window.innerWidth||document.documentElement.clientWidth||0;h=Math.round(r.height)||window.innerHeight||document.documentElement.clientHeight||0;canvas.width=Math.max(1,w*dpr);canvas.height=Math.max(1,h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);};
+  const make=()=>{const n=Math.max(24,Math.min(72,Math.round(w*h/26000)));parts=[];for(let i=0;i<n;i++)parts.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5+.6,vx:(Math.random()-.5)*.16,vy:(Math.random()-.5)*.16,a:Math.random()*.45+.18});};
+  const draw=anim=>{
+    ctx.clearRect(0,0,w,h); if(cc++%30===0)readColor();
+    for(const p of parts){
+      if(anim){
+        const dx=mx-p.x,dy=my-p.y,d2=dx*dx+dy*dy;
+        if(d2<24000&&d2>1){const d=Math.sqrt(d2);const f=(1-d/155)*.014;p.vx+=dx/d*f;p.vy+=dy/d*f;}
+        p.x+=p.vx;p.y+=p.vy;p.vx*=.985;p.vy*=.985;
+        const sp=Math.hypot(p.vx,p.vy);if(sp>.7){p.vx*=.7/sp;p.vy*=.7/sp;}
+        if(p.x<-8)p.x=w+8;else if(p.x>w+8)p.x=-8;
+        if(p.y<-8)p.y=h+8;else if(p.y>h+8)p.y=-8;
+      }
+      ctx.globalAlpha=p.a;ctx.fillStyle=col;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.2832);ctx.fill();
+    }
+    ctx.globalAlpha=1;
+  };
+  const remeasure=()=>{resize();make();};
+  remeasure();readColor();
+  window.addEventListener('resize',remeasure,{passive:true});
+  window.addEventListener('load',remeasure,{once:true});
+  setTimeout(remeasure,400);
+  if(reduce){draw(false);return;}
+  window.addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
+  (function loop(){draw(true);requestAnimationFrame(loop);})();
+}
 function initBgFx(){
+  initParticles();
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const r=document.documentElement.style;
   let tx=50,ty=26,px=0,py=0,raf=0;
