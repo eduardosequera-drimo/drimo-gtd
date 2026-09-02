@@ -241,6 +241,7 @@ details.deep[open] summary::before{content:"▾ ";}
 .detailbtn{border:1px solid color-mix(in srgb,var(--brand) 55%,var(--line2));background:color-mix(in srgb,var(--brand) 16%,transparent);color:var(--accent);
   border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;transition:.16s;white-space:nowrap;font-family:inherit}
 .detailbtn:hover{background:var(--brand);border-color:var(--brand);color:#fff;transform:translateY(-1px)}
+.card-head .detailbtn{margin-top:11px}
 .detail{position:fixed;inset:0;z-index:120;display:none;overflow-y:auto;background:rgba(8,10,16,.72);backdrop-filter:blur(6px);padding:28px 16px;cursor:zoom-out}
 .detail.on{display:block}
 .detail-panel{max-width:1040px;margin:0 auto;background:var(--card);border:1px solid var(--line2);border-radius:22px;box-shadow:0 30px 90px rgba(0,0,0,.55);cursor:auto;overflow:hidden;animation:dpin .22s ease-out}
@@ -469,11 +470,6 @@ function shotsHtml(s){
   return `<div class="shots ${solo}">`+items.map(([cap,src,cl])=>
     `<figure class="${cl}"><img loading="lazy" src="${src}" onclick="zoom('${src}')" alt="${cap}"><figcaption>${cap}</figcaption></figure>`).join('')+`</div>`;
 }
-function deepHtml(s){
-  if(!s.dims)return '';
-  return `<details class="deep"><summary>Justificación por dimensión (evidencia)</summary><dl>`+
-    DATA.dims.map(d=>{const o=s.dims[d[0]];return o?`<dt>${d[1]} · ${(+o.s).toFixed(1)}/5 <span class="wt">${d[2]}%</span></dt><dd>${o.n||''}</dd>`:''}).join('')+`</dl></details>`;
-}
 function card(s){
   const st=store.get(s.id);
   const ring=s.total!=null?`<div class="score-ring" style="--pct:${s.total};--ring:${scoreColor(s.total)}"><b>${s.total}</b><small>/100</small></div>`:'';
@@ -489,7 +485,6 @@ function card(s){
         <div class="box adopt"><h4>✔ Adoptar en GTD</h4><ul>${(s.adopt||[]).map(x=>`<li>${x}</li>`).join('')}</ul></div>
         <div class="box avoid"><h4>✕ Evitar</h4><ul>${(s.avoid||[]).map(x=>`<li>${x}</li>`).join('')}</ul></div>
       </div>
-      ${deepHtml(s)}
     </div>`;
   }
   return `<article class="card ${st.reviewed?'reviewed':''} ${blocked?'blocked':''}" id="c_${s.id}">
@@ -498,13 +493,13 @@ function card(s){
         <span class="badge b-${s.segment}">${s.segment}</span>
         <h3>${s.brand}</h3>
         <div class="sub">${s.country} · revisado ${s.review_date} · <a href="${s.url}" target="_blank" rel="noopener">visitar sitio ↗</a></div>
+        ${blocked?'':`<button class="detailbtn" onclick="openDetail('${s.id}')">Ver detalle →</button>`}
       </div>
       ${ring}
     </div>
     ${blocked?'':shotsHtml(s)}
     ${body}
     <div class="card-foot">
-      ${blocked?'':`<button class="detailbtn" onclick="openDetail('${s.id}')">Ver detalle →</button>`}
       <label class="chk"><input type="checkbox" ${st.reviewed?'checked':''} onchange="mark('${s.id}',this.checked)"> Marcar como revisada</label>
       <textarea class="notes" placeholder="Mis notas sobre ${s.brand}…" oninput="note('${s.id}',this.value)">${(st.notes||'').replace(/</g,'&lt;')}</textarea>
     </div>
