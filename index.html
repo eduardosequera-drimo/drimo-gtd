@@ -22,8 +22,18 @@
   --b2b:#6366f1; --b2c:#a855f7; --cyber:#22a7c4;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);
+html{scroll-behavior:smooth;background:var(--bg)}
+.bgfx{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;
+  background:radial-gradient(560px circle at var(--mx,50%) var(--my,26%), color-mix(in srgb,var(--brand) 15%,transparent), transparent 60%);}
+.orb{position:absolute;border-radius:50%;filter:blur(64px);opacity:.42;will-change:transform;
+  transform:translate3d(calc(var(--px,0)*1px),calc(var(--py,0)*1px),0)}
+.orb1{width:440px;height:440px;left:-90px;top:6%;background:radial-gradient(circle,color-mix(in srgb,var(--accent2) 60%,transparent),transparent 70%);animation:drift1 26s ease-in-out infinite}
+.orb2{width:380px;height:380px;right:-70px;top:34%;background:radial-gradient(circle,color-mix(in srgb,var(--brand) 55%,transparent),transparent 70%);animation:drift2 32s ease-in-out infinite}
+.orb3{width:300px;height:300px;left:38%;bottom:-8%;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 45%,transparent),transparent 72%);animation:drift1 38s ease-in-out infinite reverse}
+@keyframes drift1{0%,100%{translate:0 0}50%{translate:38px 26px}}
+@keyframes drift2{0%,100%{translate:0 0}50%{translate:-36px -22px}}
+@media(prefers-reduced-motion:reduce){.orb{animation:none}}
+body{margin:0;background:transparent;color:var(--ink);
   font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
 h1,h2,h3,.serif{font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-weight:700;letter-spacing:-.02em}
@@ -233,6 +243,7 @@ mark{background:color-mix(in srgb,var(--accent) 26%,transparent);color:inherit;p
 </style>
 </head>
 <body>
+<div class="bgfx" id="bgfx" aria-hidden="true"><span class="orb orb1"></span><span class="orb orb2"></span><span class="orb orb3"></span></div>
 <div class="lb" id="lb" onclick="this.classList.remove('on')"><img id="lbimg" src=""></div>
 <button id="toTop" class="totop" aria-label="Volver arriba" title="Volver arriba">↑</button>
 
@@ -541,6 +552,17 @@ function initWire(){
   renderWire();
   initWireTips();
 }
+function initBgFx(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const r=document.documentElement.style;
+  let tx=50,ty=26,px=0,py=0,raf=0;
+  const apply=()=>{r.setProperty('--mx',tx.toFixed(1)+'%');r.setProperty('--my',ty.toFixed(1)+'%');r.setProperty('--px',px.toFixed(1));r.setProperty('--py',py.toFixed(1));raf=0;};
+  window.addEventListener('pointermove',e=>{
+    tx=e.clientX/innerWidth*100; ty=e.clientY/innerHeight*100;
+    px=(e.clientX/innerWidth-0.5)*34; py=(e.clientY/innerHeight-0.5)*34;
+    if(!raf) raf=requestAnimationFrame(apply);
+  },{passive:true});
+}
 function updateStickyH(){
   const tb=document.querySelector('.topbar'), tl=document.querySelector('.toolbar');
   const th=tb?tb.offsetHeight:0, ll=tl?tl.offsetHeight:0;
@@ -578,7 +600,7 @@ function initFoot(){
    <p>${DATA.meta.note||''}</p>
    <p class="small">Benchmark generado el ${DATA.meta.date||''} · capturas propias de los sitios públicos · se respetó robots.txt y no se accedió a áreas privadas ni portales tras inicio de sesión. Las casillas de “revisada” y tus notas se guardan en este navegador (localStorage).</p>`;
 }
-initStats();initTabs();initCharts();initPatterns();initWire();initNav();initFoot();render();
+initStats();initTabs();initCharts();initPatterns();initWire();initNav();initBgFx();initFoot();render();
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lb').classList.remove('on')});
 </script>
 </body>
