@@ -85,9 +85,15 @@ section{padding:56px 0}
 .team-org.org-drimo{background:var(--brand)}
 .team-org.org-gtd{background:#0891b2}
 
-.stages{display:flex;align-items:stretch;overflow-x:auto;padding:6px 2px 16px;margin:0 -2px;scrollbar-width:thin}
+.stages{display:flex;align-items:stretch;overflow-x:auto;padding:46px 2px 16px;margin:0 -2px;scrollbar-width:thin;position:relative}
 .stages::-webkit-scrollbar{height:6px}
 .stages::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px}
+.stage-group{position:absolute;top:0;height:26px;pointer-events:none}
+.stage-group .grp-label{position:absolute;top:0;left:50%;transform:translateX(-50%);font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);white-space:nowrap;opacity:.72}
+.stage-group .grp-line{position:absolute;left:0;right:0;top:18px;height:1px;background:var(--line2);opacity:.8}
+.stage-group .grp-tick{position:absolute;top:18px;width:1px;height:6px;background:var(--line2);opacity:.8}
+.stage-group .grp-tick.l{left:0}
+.stage-group .grp-tick.r{right:0}
 .stage-col{flex:0 0 236px;display:flex;flex-direction:column;padding-right:22px}
 .stage-col:last-child{padding-right:2px}
 .stage-node-row{display:flex;align-items:center;width:100%;margin-bottom:14px}
@@ -97,7 +103,7 @@ section{padding:56px 0}
 .stage-node.next{background:var(--card);border-color:var(--accent);color:var(--accent);position:relative}
 .stage-node.next::before,.stage-node.next::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent);animation:stage-pulse 2.2s cubic-bezier(0.3,0,0.4,1) infinite}
 .stage-node.next::after{animation-delay:1.1s}
-@keyframes stage-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.1);opacity:0}}
+@keyframes stage-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.75);opacity:0}}
 @media(prefers-reduced-motion:reduce){.stage-node.next::before,.stage-node.next::after{animation:none;display:none}}
 .stage-connector{flex:1;height:2px;background:var(--line);margin-left:3px;min-width:12px}
 .stage-connector.done{background:var(--good)}
@@ -109,7 +115,9 @@ section{padding:56px 0}
 .stage-badge.next{color:var(--accent);background:color-mix(in srgb,var(--brand) 15%,transparent);border:1px solid color-mix(in srgb,var(--brand) 35%,transparent)}
 .stage-badge.planned{color:var(--ink2);background:var(--bg2);border:1px solid var(--line2)}
 .stage-desc{font-size:12.5px;color:var(--ink2);line-height:1.55;margin:0;flex:1}
-.stage-cta{display:inline-flex;align-items:center;gap:5px;margin-top:2px;font-size:12.5px;font-weight:700;color:var(--accent)}
+.stage-cta{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:2px;font-size:12.5px;font-weight:700;color:#fff;
+  background:linear-gradient(135deg,var(--brand),var(--accent2));padding:8px 14px;border-radius:9px;box-shadow:0 4px 14px color-mix(in srgb,var(--brand) 40%,transparent);transition:transform .15s,box-shadow .15s}
+.stage-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px color-mix(in srgb,var(--brand) 50%,transparent);text-decoration:none}
 
 footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-size:12px}
 .foot-in{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -149,7 +157,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
     <p class="sec-sub">El roadmap completo de investigación y diseño. Cada etapa completada enlaza a su entregable propio.</p>
     <div class="stages"><div class="stage-col done">
       <div class="stage-node-row">
-        <span class="stage-node done">✓</span>
+        <span class="stage-node done" data-n="1">✓</span>
         <span class="stage-connector done"></span>
       </div>
       <div class="stage-body">
@@ -161,7 +169,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
     </div>
 <div class="stage-col next">
       <div class="stage-node-row">
-        <span class="stage-node next">2</span>
+        <span class="stage-node next" data-n="2">2</span>
         <span class="stage-connector "></span>
       </div>
       <div class="stage-body">
@@ -173,7 +181,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
     </div>
 <div class="stage-col planned">
       <div class="stage-node-row">
-        <span class="stage-node ">3</span>
+        <span class="stage-node " data-n="3">3</span>
         <span class="stage-connector "></span>
       </div>
       <div class="stage-body">
@@ -185,7 +193,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
     </div>
 <div class="stage-col planned">
       <div class="stage-node-row">
-        <span class="stage-node ">4</span>
+        <span class="stage-node " data-n="4">4</span>
         <span class="stage-connector "></span>
       </div>
       <div class="stage-body">
@@ -197,7 +205,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
     </div>
 <div class="stage-col planned">
       <div class="stage-node-row">
-        <span class="stage-node ">5</span>
+        <span class="stage-node " data-n="5">5</span>
         <span class="stage-connector "></span>
       </div>
       <div class="stage-body">
@@ -209,7 +217,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
     </div>
 <div class="stage-col planned">
       <div class="stage-node-row">
-        <span class="stage-node ">6</span>
+        <span class="stage-node " data-n="6">6</span>
         <span class="stage-connector "></span>
       </div>
       <div class="stage-body">
@@ -221,7 +229,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
     </div>
 <div class="stage-col planned">
       <div class="stage-node-row">
-        <span class="stage-node ">7</span>
+        <span class="stage-node " data-n="7">7</span>
         <span class="stage-connector "></span>
       </div>
       <div class="stage-body">
@@ -233,7 +241,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
     </div>
 <div class="stage-col planned">
       <div class="stage-node-row">
-        <span class="stage-node ">8</span>
+        <span class="stage-node " data-n="8">8</span>
         
       </div>
       <div class="stage-body">
@@ -386,6 +394,29 @@ function initBgFx(){
   },{passive:true});
 }
 initBgFx();
+
+function initStageGroups(){
+  const groups=[{from:1,to:5,label:'Research UX'}];
+  const stages=document.querySelector('.stages');
+  if(!stages) return;
+  const sRect=stages.getBoundingClientRect();
+  groups.forEach(g=>{
+    const n1=stages.querySelector('[data-n="'+g.from+'"]');
+    const n2=stages.querySelector('[data-n="'+g.to+'"]');
+    if(!n1||!n2) return;
+    const r1=n1.getBoundingClientRect();
+    const r2=n2.getBoundingClientRect();
+    const left=r1.left - sRect.left + stages.scrollLeft + r1.width/2;
+    const right=r2.left - sRect.left + stages.scrollLeft + r2.width/2;
+    const el=document.createElement('div');
+    el.className='stage-group';
+    el.style.left=left+'px';
+    el.style.width=Math.max(0,right-left)+'px';
+    el.innerHTML='<span class="grp-label">'+g.label+'</span><span class="grp-line"></span><span class="grp-tick l"></span><span class="grp-tick r"></span>';
+    stages.insertBefore(el, stages.firstChild);
+  });
+}
+initStageGroups();
 </script>
 </body>
 </html>
