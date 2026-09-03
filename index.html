@@ -213,7 +213,27 @@ details.deep[open] summary::before{content:"▾ ";}
 .pat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
 
 /* GTD frente a la competencia */
-#gtdvsCards{display:flex;flex-direction:column;gap:28px}
+.gtdvs-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:24px;align-items:start}
+@media(max-width:900px){.gtdvs-grid{grid-template-columns:1fr}}
+#gtdvsCards{display:flex;flex-direction:column;gap:28px;min-width:0}
+.gtdvs-diag{position:sticky;top:calc(var(--sticky-h,120px) + 20px)}
+.gtdvs-diag h3{display:flex;align-items:center;gap:8px}
+.gtdvs-diag h3::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--brand);flex:none}
+.gtdvs-gap{font-size:13.5px;line-height:1.65;color:var(--ink);padding:13px 14px;background:var(--bg2);border-radius:11px;border:1px solid var(--line);margin-bottom:18px}
+.gtdvs-gap b{color:var(--accent)}
+.diag-list{display:flex;flex-direction:column;gap:14px}
+.diag-item{padding-bottom:14px;border-bottom:1px dashed var(--line)}
+.diag-item:last-child{border-bottom:0;padding-bottom:0}
+.diag-item .diag-top{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.diag-sev{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:5px;flex:none}
+.diag-sev.crit{color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,transparent);border:1px solid color-mix(in srgb,var(--bad) 35%,transparent)}
+.diag-sev.high{color:var(--mid);background:color-mix(in srgb,var(--mid) 15%,transparent);border:1px solid color-mix(in srgb,var(--mid) 35%,transparent)}
+.diag-sev.med{color:var(--ink2);background:var(--bg2);border:1px solid var(--line2)}
+.diag-item .diag-t{font-size:13px;font-weight:700;color:var(--ink);line-height:1.4}
+.diag-item .diag-d{font-size:12px;line-height:1.6;color:var(--ink2);margin:5px 0 0}
+.diag-item .diag-d b{color:var(--ink);font-weight:600}
+.diag-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.diag-tags span{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;color:var(--ink2);background:var(--bg2);border:1px solid var(--line2);border-radius:999px;padding:1.5px 7px}
 .gtdvs-compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:6px;padding:14px;background:var(--bg2);border-radius:12px;border:1px solid var(--line)}
 .gtdvs-item{text-align:center}
 .gtdvs-item .gv-n{font-family:"Inter",system-ui,sans-serif;font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1}
@@ -430,7 +450,10 @@ mark{background:color-mix(in srgb,var(--accent) 26%,transparent);color:inherit;p
   <div class="wrap">
     <div class="sec-title"><h2 class="serif">GTD frente a la competencia</h2></div>
     <p class="sec-sub">Los tres sitios propios de GTD (Empresas/Corporaciones, Hogar y SecureSoft en ciberseguridad) evaluados con el mismo scorecard de 10 dimensiones, comparados contra el promedio y el mejor de su segmento. También aparecen marcados con la etiqueta <b>GTD</b> dentro del ranking "Puntuación por competidor" del panorama, arriba.</p>
-    <div id="gtdvsCards"></div>
+    <div class="gtdvs-grid">
+      <div id="gtdvsCards"></div>
+      <aside class="panel gtdvs-diag" id="gtdvsDiag"></aside>
+    </div>
   </div>
 </section>
 
@@ -610,11 +633,47 @@ function gtdCard(s){
     </div>
   </article>`;
 }
+const GTD_PRIORITIES=[
+  {sev:'crit',label:'Crítico',title:'Meta description ausente en las tres propiedades',
+   d:'GTD Empresas, GTD Hogar y SecureSoft tienen <b>0 caracteres</b> de meta description. Es la corrección de mayor relación impacto/esfuerzo de todo el ecosistema: no exige tocar diseño ni contenido, solo completar un campo por página.',
+   tags:['GTD Empresas','GTD Hogar','SecureSoft']},
+  {sev:'crit',label:'Crítico',title:'SecureSoft sin H1 y sin ningún dato estructurado',
+   d:'Es la única de las tres propiedades sin H1 en el HTML, no tiene schema de ningún tipo, y no declara hreflang pese a comunicar presencia en 5 países. Es la propiedad más débil de todo el ecosistema GTD (57, último de su segmento) y la prioridad número uno a corregir.',
+   tags:['SecureSoft']},
+  {sev:'high',label:'Alto',title:'Encabezados H2 contaminados con nombres internos de Liferay',
+   d:'Mismo patrón en las tres propiedades — fragmentos como <b>"CT_contactarejecutivo_inicio_hogar2_portada"</b> o <b>"SP_Switch_Mono_600_Gtd"</b> aparecen como texto de encabezado real. Afecta lectores de pantalla y la señal semántica que extraen los buscadores; es un ajuste de configuración de plataforma, no de contenido.',
+   tags:['GTD Empresas','GTD Hogar','SecureSoft']},
+  {sev:'high',label:'Alto',title:'GTD Empresas no tiene un journey de cotización propio',
+   d:'El enlace de producto principal en Corporaciones conduce al <b>mismo cotizador residencial</b> que usa GTD Hogar. Ningún decisor B2B encuentra hoy un configurador pensado para la escala de una empresa o corporación.',
+   tags:['GTD Empresas']},
+  {sev:'med',label:'Medio',title:'Cobertura de alt estancada en 35% en las tres propiedades',
+   d:'El mismo valor exacto (35%) en GTD Empresas, GTD Hogar y SecureSoft sugiere una plantilla compartida sin gobernanza de accesibilidad, más que un problema aislado de contenido.',
+   tags:['GTD Empresas','GTD Hogar','SecureSoft']},
+  {sev:'med',label:'Medio',title:'SecureSoft es la única propiedad sin WhatsApp ni chat',
+   d:'El conjunto de canales de conversión más angosto de las tres — se apoya solo en un formulario de contacto, sin las alternativas de baja fricción que sí tienen GTD Empresas y GTD Hogar.',
+   tags:['SecureSoft']},
+];
+function gtdDiagHtml(list){
+  const gtdAvg=Math.round(list.reduce((a,s)=>a+s.total,0)/list.length*10)/10;
+  const mktAvg=Math.round(list.reduce((a,s)=>a+((DATA.segAvgs||{})[s.segment]||0),0)/list.length*10)/10;
+  const gap=Math.round((mktAvg-gtdAvg)*10)/10;
+  const nCrit=GTD_PRIORITIES.filter(p=>p.sev==='crit').length;
+  const items=GTD_PRIORITIES.map((p,i)=>`
+    <div class="diag-item">
+      <div class="diag-top"><span class="diag-sev ${p.sev}">${p.label}</span><span class="diag-t">${i+1}. ${p.title}</span></div>
+      <p class="diag-d">${p.d}</p>
+      <div class="diag-tags">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+    </div>`).join('');
+  return `<h3>Diagnóstico general</h3>
+    <p class="gtdvs-gap">GTD promedia <b>${gtdAvg}/100</b> en sus tres propiedades, <b>${gap} puntos</b> por debajo del promedio de mercado en esos mismos segmentos (${mktAvg}/100). ${nCrit} de las ${GTD_PRIORITIES.length} prioridades detectadas son críticas y se repiten en más de una propiedad.</p>
+    <div class="diag-list">${items}</div>`;
+}
 function initGtdSection(){
   const list=DATA.gtd||[];
   const sec=document.getElementById('gtdvs');
   if(!list.length){ if(sec) sec.style.display='none'; return; }
   document.getElementById('gtdvsCards').innerHTML=list.map(gtdCard).join('');
+  document.getElementById('gtdvsDiag').innerHTML=gtdDiagHtml(list);
 }
 function card(s){
   const st=store.get(s.id);
