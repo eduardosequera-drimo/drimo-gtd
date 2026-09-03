@@ -60,19 +60,13 @@ a:hover{text-decoration:underline}
 .eyebrow{font-family:"JetBrains Mono",monospace;letter-spacing:.18em;text-transform:uppercase;font-size:11.5px;color:var(--accent);font-weight:500;margin-bottom:14px}
 .hero h1{font-size:clamp(30px,4.4vw,50px);line-height:1.06;margin-bottom:16px}
 .hero h1 .hl{color:transparent;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text}
-.hero .lede{max-width:680px;font-size:16.5px;color:var(--ink2);line-height:1.65}
+.hero .lede{max-width:720px;font-size:18px;color:var(--ink2);line-height:1.7}
+.hero .lede .kw{color:var(--ink);font-weight:700}
 section{padding:56px 0}
 .sec-title{display:flex;align-items:baseline;gap:12px;margin-bottom:10px}
 .sec-title h2{font-size:24px}
 .sec-num{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--accent);font-weight:600}
 .sec-sub{color:var(--ink2);margin:0 0 32px;max-width:680px;line-height:1.6}
-
-.obj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-@media(max-width:760px){.obj-grid{grid-template-columns:1fr}}
-.obj-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
-.obj-card .obj-icon{width:34px;height:34px;border-radius:9px;background:color-mix(in srgb,var(--brand) 14%,transparent);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:14px}
-.obj-card h3{font-size:14.5px;margin-bottom:7px}
-.obj-card p{font-size:12.5px;color:var(--ink2);line-height:1.6;margin:0}
 
 .team-block{margin-bottom:30px}
 .team-block:last-child{margin-bottom:0}
@@ -100,7 +94,11 @@ section{padding:56px 0}
 .stage-node{width:32px;height:32px;border-radius:50%;background:var(--card);border:2px solid var(--line2);display:flex;align-items:center;justify-content:center;
   font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;color:var(--ink2);flex:none;z-index:1}
 .stage-node.done{background:var(--good);border-color:var(--good);color:#fff}
-.stage-node.next{background:var(--card);border-color:var(--accent);color:var(--accent)}
+.stage-node.next{background:var(--card);border-color:var(--accent);color:var(--accent);position:relative}
+.stage-node.next::before,.stage-node.next::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent);animation:stage-pulse 2.2s cubic-bezier(0.3,0,0.4,1) infinite}
+.stage-node.next::after{animation-delay:1.1s}
+@keyframes stage-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.1);opacity:0}}
+@media(prefers-reduced-motion:reduce){.stage-node.next::before,.stage-node.next::after{animation:none;display:none}}
 .stage-connector{flex:1;height:2px;background:var(--line);margin-left:3px;min-width:12px}
 .stage-connector.done{background:var(--good)}
 .stage-body{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;flex:1}
@@ -141,12 +139,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
     </div>
     <div class="eyebrow">Hub de proyecto · investigación &amp; diseño</div>
     <h1>Rediseño digital de <span class="hl">GTD</span></h1>
-    <p class="lede">Punto de partida de todo el proceso: el rediseño de los sitios públicos de GTD, construido etapa por etapa y con evidencia antes que opinión.</p>
-    <div class="obj-grid">
-      <div class="obj-card"><div class="obj-icon">◎</div><h3>Partir de evidencia</h3><p>Cada decisión de diseño se apoya en investigación real: benchmark competitivo, arquitectura de información y validación con usuarios, no en preferencias estéticas.</p></div>
-      <div class="obj-card"><div class="obj-icon">▦</div><h3>Cubrir los tres frentes</h3><p>GTD Empresas/Corporaciones (B2B), GTD Hogar (B2C) y SecureSoft (ciberseguridad) se diseñan bajo un mismo sistema, pero con la profundidad que cada audiencia necesita.</p></div>
-      <div class="obj-card"><div class="obj-icon">→</div><h3>Entregar por etapas</h3><p>De la investigación al handoff técnico, cada etapa es un entregable verificable antes de avanzar a la siguiente — sin saltos ni supuestos sin validar.</p></div>
-    </div>
+    <p class="lede">Punto de partida de todo el proceso: el rediseño digital de GTD, construido <span class="kw">etapa por etapa</span> y con <span class="kw">evidencia</span> antes que opinión, para sus tres frentes de negocio — <span class="kw">Empresas/Corporaciones (B2B)</span>, <span class="kw">Hogar (B2C)</span> y <span class="kw">ciberseguridad</span> con SecureSoft.</p>
   </div>
 </header>
 
@@ -263,17 +256,8 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
       <div class="team-avatar org-drimo">EF</div>
       <div class="team-meta">
         <div class="team-name">Eliseo Fuentes</div>
-        <div class="team-role">Por confirmar</div>
+        <div class="team-role">Client Engineer</div>
         <a class="team-email" href="mailto:eliseo.fuentes@drimo.com">eliseo.fuentes@drimo.com</a>
-      </div>
-      <span class="team-org org-drimo">DRIMO</span>
-    </div>
-<div class="team-card">
-      <div class="team-avatar org-drimo">ES</div>
-      <div class="team-meta">
-        <div class="team-name">Eduardo Sequera</div>
-        <div class="team-role">Por confirmar</div>
-        <a class="team-email" href="mailto:eduardo.sequera@drimo.com">eduardo.sequera@drimo.com</a>
       </div>
       <span class="team-org org-drimo">DRIMO</span>
     </div>
@@ -281,8 +265,17 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
       <div class="team-avatar org-drimo">FD</div>
       <div class="team-meta">
         <div class="team-name">Federico De Maio</div>
-        <div class="team-role">Por confirmar</div>
+        <div class="team-role">Jefe de Proyecto</div>
         <a class="team-email" href="mailto:federico.demaio@drimo.com">federico.demaio@drimo.com</a>
+      </div>
+      <span class="team-org org-drimo">DRIMO</span>
+    </div>
+<div class="team-card">
+      <div class="team-avatar org-drimo">RM</div>
+      <div class="team-meta">
+        <div class="team-name">Rodrigo Mendoza</div>
+        <div class="team-role">Technical Lead</div>
+        <a class="team-email" href="mailto:rodrigo.mendoza@drimo.com">rodrigo.mendoza@drimo.com</a>
       </div>
       <span class="team-org org-drimo">DRIMO</span>
     </div>
@@ -290,7 +283,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
       <div class="team-avatar org-drimo">FV</div>
       <div class="team-meta">
         <div class="team-name">Frida Varela</div>
-        <div class="team-role">Por confirmar</div>
+        <div class="team-role">UX/UI Designer</div>
         <a class="team-email" href="mailto:frida.varela@drimo.com">frida.varela@drimo.com</a>
       </div>
       <span class="team-org org-drimo">DRIMO</span>
@@ -299,17 +292,17 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
       <div class="team-avatar org-drimo">MK</div>
       <div class="team-meta">
         <div class="team-name">Matias Kohler</div>
-        <div class="team-role">Por confirmar</div>
+        <div class="team-role">UX/UI Designer</div>
         <a class="team-email" href="mailto:matias.kohler@drimo.com">matias.kohler@drimo.com</a>
       </div>
       <span class="team-org org-drimo">DRIMO</span>
     </div>
 <div class="team-card">
-      <div class="team-avatar org-drimo">RM</div>
+      <div class="team-avatar org-drimo">ES</div>
       <div class="team-meta">
-        <div class="team-name">Rodrigo Mendoza</div>
-        <div class="team-role">Por confirmar</div>
-        <a class="team-email" href="mailto:rodrigo.mendoza@drimo.com">rodrigo.mendoza@drimo.com</a>
+        <div class="team-name">Eduardo Sequera</div>
+        <div class="team-role">UX/UI Designer</div>
+        <a class="team-email" href="mailto:eduardo.sequera@drimo.com">eduardo.sequera@drimo.com</a>
       </div>
       <span class="team-org org-drimo">DRIMO</span>
     </div></div>
