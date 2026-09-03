@@ -86,7 +86,14 @@ section{padding:56px 0}
 .team-org.org-drimo{background:var(--brand)}
 .team-org.org-gtd{background:#0891b2}
 
-.stages{display:flex;align-items:stretch;overflow-x:auto;padding:46px 2px 16px;margin:0 -2px;scrollbar-width:thin;position:relative}
+.stages-wrap{display:flex;align-items:center;gap:8px}
+.stages-nav{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line2);background:var(--card);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;font-size:19px;line-height:1;cursor:pointer;box-shadow:var(--shadow);
+  transition:opacity .15s,border-color .15s,color .15s;padding:0}
+.stages-nav:hover{border-color:var(--accent);color:var(--accent)}
+.stages-nav:disabled{opacity:.35;cursor:default;pointer-events:none}
+@media(max-width:640px){.stages-nav{display:none}}
+.stages{display:flex;align-items:stretch;overflow-x:auto;padding:46px 2px 16px;margin:0 -2px;scrollbar-width:thin;position:relative;flex:1;min-width:0}
 .stages::-webkit-scrollbar{height:6px}
 .stages::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px}
 .stage-group{position:absolute;top:0;height:26px;pointer-events:none}
@@ -156,7 +163,9 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
   <div class="wrap">
     <div class="sec-title"><span class="sec-num">01</span><h2>Etapas del proyecto</h2></div>
     <p class="sec-sub">El roadmap completo de investigación y diseño. Cada etapa completada enlaza a su entregable propio.</p>
-    <div class="stages"><div class="stage-col done">
+    <div class="stages-wrap">
+      <button class="stages-nav prev" id="stagesPrev" onclick="scrollStages(-1)" aria-label="Etapas anteriores">‹</button>
+      <div class="stages" id="stagesTrack"><div class="stage-col done">
       <div class="stage-node-row">
         <span class="stage-node done" data-n="1">✓</span>
         <span class="stage-connector done"></span>
@@ -264,6 +273,8 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
         
       </div>
     </div></div>
+      <button class="stages-nav next" id="stagesNext" onclick="scrollStages(1)" aria-label="Etapas siguientes">›</button>
+    </div>
   </div>
 </section>
 
@@ -430,6 +441,26 @@ function initStageGroups(){
   });
 }
 initStageGroups();
+
+function scrollStages(dir){
+  const el=document.getElementById('stagesTrack'); if(!el) return;
+  el.scrollBy({left:dir*Math.round(el.clientWidth*0.8),behavior:'smooth'});
+}
+function updateStagesNav(){
+  const el=document.getElementById('stagesTrack');
+  const prev=document.getElementById('stagesPrev'), next=document.getElementById('stagesNext');
+  if(!el||!prev||!next) return;
+  const max=el.scrollWidth-el.clientWidth;
+  prev.disabled=el.scrollLeft<=2;
+  next.disabled=el.scrollLeft>=max-2;
+}
+(function initStagesNav(){
+  const el=document.getElementById('stagesTrack'); if(!el) return;
+  el.addEventListener('scroll',updateStagesNav,{passive:true});
+  window.addEventListener('resize',updateStagesNav,{passive:true});
+  updateStagesNav();
+  setTimeout(updateStagesNav,400);
+})();
 </script>
 </body>
 </html>
