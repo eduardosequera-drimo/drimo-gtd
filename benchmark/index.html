@@ -85,6 +85,12 @@ header.hero{padding:64px 0 40px;border-bottom:1px solid var(--line);
 .seg-tabs .btn{font-weight:600}
 select,input[type=search]{border:1px solid var(--line2);background:var(--card);color:var(--ink);
   border-radius:999px;padding:7px 13px;font-size:13px;font-family:inherit}
+select{appearance:none;-webkit-appearance:none;-moz-appearance:none}
+.sel-wrap{position:relative;display:inline-flex}
+.sel-wrap select{padding-right:32px}
+.sel-wrap::after{content:"";position:absolute;right:14px;top:50%;width:7px;height:7px;
+  border-right:2px solid var(--ink2);border-bottom:2px solid var(--ink2);
+  transform:translateY(-70%) rotate(45deg);pointer-events:none}
 .spacer{flex:1}
 .themetgl{width:38px;height:38px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:16px;line-height:1;flex:none}
 
@@ -407,13 +413,13 @@ mark{background:color-mix(in srgb,var(--accent) 26%,transparent);color:inherit;p
       <div class="seg-tabs row" id="segTabs"></div>
       <div class="spacer"></div>
       <input type="search" id="q" placeholder="Buscar marca…" oninput="render();renderCompChart()">
-      <select id="country" onchange="render();renderCompChart()"></select>
-      <select id="sort" onchange="render()">
+      <span class="sel-wrap"><select id="country" onchange="render();renderCompChart()"></select></span>
+      <span class="sel-wrap"><select id="sort" onchange="render()">
         <option value="score">Orden: puntuación ↓</option>
         <option value="score_asc">Puntuación ↑</option>
         <option value="brand">Marca A–Z</option>
         <option value="segment">Segmento</option>
-      </select>
+      </select></span>
       <button class="btn themetgl" id="tt" onclick="toggleTheme()" title="Modo claro/oscuro">◐</button>
     </div>
   </div>
