@@ -4,7 +4,7 @@
   "trailingSlash": false,
   "headers": [
     {
-      "source": "/(index.html|benchmark|benchmark/index.html)",
+      "source": "/(index.html|benchmark|benchmark/index.html|research|research/index.html)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
       ]
