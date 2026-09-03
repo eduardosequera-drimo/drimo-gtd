@@ -85,6 +85,7 @@ header.hero{padding:64px 0 40px;border-bottom:1px solid var(--line);
   padding:7px 15px;font-size:13px;cursor:pointer;transition:.18s;white-space:nowrap}
 .btn:hover{border-color:var(--accent)}
 .btn.active{background:var(--brand);border-color:var(--brand);color:#fff}
+.gtdvs-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
 .seg-tabs .btn{font-weight:600}
 select,input[type=search]{border:1px solid var(--line2);background:var(--card);color:var(--ink);
   border-radius:999px;padding:7px 13px;font-size:13px;font-family:inherit}
@@ -468,6 +469,7 @@ mark{background:color-mix(in srgb,var(--accent) 26%,transparent);color:inherit;p
   <div class="wrap">
     <div class="sec-title"><h2 class="serif">GTD frente a la competencia</h2></div>
     <p class="sec-sub">Las siete propiedades digitales de GTD (Empresas/Corporaciones, Hogar, SecureSoft en ciberseguridad, Telsur, GTD Perú, GTD Colombia y GTD Company) evaluadas con el mismo scorecard de 10 dimensiones, comparadas contra el promedio y el mejor de su segmento, con un diagnóstico de usabilidad y encontrabilidad propio junto a cada una — pensado como insumo directo para el rediseño. También aparecen marcadas con la etiqueta <b>GTD</b> dentro del ranking "Puntuación por competidor" del panorama, arriba.</p>
+    <div class="gtdvs-tabs" id="gtdvsTabs"></div>
     <div id="gtdvsRows"></div>
   </div>
 </section>
@@ -750,15 +752,27 @@ function gtdDiagHtml(s){
     <p class="gtdvs-gap">${s.brand} obtiene <b>${s.total}/100</b>, ${gapTxt} ${nCrit} de las ${prios.length} prioridades detectadas ${nCrit===1?'es crítica':'son críticas'}.</p>
     <div class="diag-list">${items}</div>`;
 }
-function initGtdSection(){
+let curGtd='Todos';
+function setGtdFilter(id){curGtd=id;document.querySelectorAll('.gtd-tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.gtd===id));renderGtdRows();}
+function renderGtdRows(){
   const list=DATA.gtd||[];
-  const sec=document.getElementById('gtdvs');
-  if(!list.length){ if(sec) sec.style.display='none'; return; }
-  document.getElementById('gtdvsRows').innerHTML=list.map(s=>`
+  const shown=curGtd==='Todos'?list:list.filter(s=>s.id===curGtd);
+  const rows=document.getElementById('gtdvsRows');
+  if(!shown.length){rows.innerHTML='<div class="empty" style="padding:24px 0">Sin resultados con este filtro.</div>';return;}
+  rows.innerHTML=shown.map(s=>`
     <div class="gtdvs-grid">
       ${gtdCard(s)}
       <aside class="panel gtdvs-diag">${gtdDiagHtml(s)}</aside>
     </div>`).join('');
+}
+function initGtdSection(){
+  const list=DATA.gtd||[];
+  const sec=document.getElementById('gtdvs');
+  if(!list.length){ if(sec) sec.style.display='none'; return; }
+  const tabs=[{id:'Todos',label:'Todos'}].concat(list.map(s=>({id:s.id,label:s.brand})));
+  document.getElementById('gtdvsTabs').innerHTML=tabs.map(t=>
+    `<button class="btn gtd-tab-btn ${t.id===curGtd?'active':''}" data-gtd="${t.id}" onclick="setGtdFilter('${t.id}')">${t.label}</button>`).join('');
+  renderGtdRows();
 }
 function card(s){
   const st=store.get(s.id);
