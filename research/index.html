@@ -54,11 +54,14 @@ a:hover{text-decoration:underline}
 .themetgl{width:36px;height:36px;padding:0;border-radius:50%;border:1px solid var(--line2);background:var(--card);color:var(--ink);
   display:inline-flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;flex:none}
 
-.backbar-link{display:inline-flex;align-items:center;gap:7px;margin-bottom:20px;padding:7px 14px 7px 12px;font-size:13.5px;font-weight:600;color:var(--ink2);
+.stage-nav{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.backbar-link{display:inline-flex;align-items:center;gap:7px;padding:7px 14px 7px 12px;font-size:13px;font-weight:600;color:var(--ink2);
   text-decoration:none;transition:color .15s,border-color .15s,background .15s;border:1px solid var(--line2);border-radius:999px;background:color-mix(in srgb,var(--card) 60%,transparent)}
 .backbar-link:hover{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb,var(--brand) 10%,transparent);text-decoration:none}
+.backbar-link.hub{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
 .backbar-link .arr{transition:transform .15s}
 .backbar-link:hover .arr{transform:translateX(-2px)}
+.backbar-link.nxt:hover .arr{transform:translateX(2px)}
 
 .hero{padding:44px 0 40px;background:radial-gradient(900px 420px at 88% -20%,color-mix(in srgb,var(--brand) 26%,transparent),transparent),radial-gradient(700px 360px at 8% 0%,color-mix(in srgb,var(--accent2) 16%,transparent),transparent),linear-gradient(180deg,var(--bg2),var(--bg));border-bottom:1px solid var(--line)}
 .eyebrow{font-family:"JetBrains Mono",monospace;letter-spacing:.18em;text-transform:uppercase;font-size:11.5px;color:var(--accent);font-weight:500;margin-bottom:12px}
@@ -193,7 +196,11 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
 
 <header class="hero">
   <div class="wrap">
-    <a class="backbar-link" href="/"><span class="arr">←</span> Volver al Hub</a>
+    <div class="stage-nav">
+      
+      <a class="backbar-link hub" href="/"><span class="arr">⌂</span> Volver al Hub</a>
+      <a class="backbar-link nxt" href="/benchmark">Benchmark de competidores <span class="arr">→</span></a>
+    </div>
     <div class="eyebrow">Research de descubrimiento · Proyecto Web 3.0 GTD</div>
     <h1>Lo que nos dijo <span style="color:transparent;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text">el negocio</span></h1>
     <p class="lede">Consolidado de 4 sesiones de research con +25 personas de las cuatro unidades de negocio de GTD, antes de proponer arquitectura o diseño: qué les duele hoy del ecosistema digital, con sus propias palabras.</p>
