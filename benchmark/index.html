@@ -70,9 +70,9 @@ header.hero{padding:64px 0 40px;border-bottom:1px solid var(--line);
 .topbar-logo-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .topbar-logo{height:26px;width:auto;flex:none;display:block}
 @media(max-width:640px){.topbar-logo{height:22px}.topbar-in{gap:10px;flex-wrap:wrap}}
-.backbar{border-bottom:1px solid var(--line);background:var(--bg2)}
-.backbar-link{display:inline-flex;align-items:center;gap:6px;padding:9px 0;font-size:12.5px;font-weight:600;color:var(--ink2);text-decoration:none;transition:color .15s}
-.backbar-link:hover{color:var(--accent);text-decoration:none}
+.backbar-link{display:inline-flex;align-items:center;gap:7px;margin-bottom:18px;padding:7px 14px 7px 12px;font-size:13.5px;font-weight:600;color:var(--ink2);
+  text-decoration:none;transition:color .15s,border-color .15s,background .15s;border:1px solid var(--line2);border-radius:999px;background:color-mix(in srgb,var(--card) 60%,transparent)}
+.backbar-link:hover{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb,var(--brand) 10%,transparent);text-decoration:none}
 .backbar-link .arr{transition:transform .15s}
 .backbar-link:hover .arr{transform:translateX(-2px)}
 .toolbar{position:sticky;top:var(--topbar-h,52px);z-index:40;background:color-mix(in srgb,var(--bg) 88%,transparent);
@@ -391,14 +391,9 @@ mark{background:color-mix(in srgb,var(--accent) 26%,transparent);color:inherit;p
   </div>
 </div>
 
-<div class="backbar">
-  <div class="wrap">
-    <a class="backbar-link" href="/"><span class="arr">←</span> Volver al Hub</a>
-  </div>
-</div>
-
 <header class="hero">
   <div class="wrap">
+    <a class="backbar-link" href="/"><span class="arr">←</span> Volver al Hub</a>
     <div class="eyebrow">Benchmark de experiencia · usabilidad · diseño</div>
     <h1>Competidores regionales de GTD<br>bajo la lupa del <span class="hl">rediseño</span></h1>
     <p class="lede">Auditoría de los sitios públicos de la competencia en Chile, Perú y Colombia, organizada en tres segmentos, para alimentar el rediseño de los sitios de GTD: qué prácticas adoptar y qué errores evitar.</p>
