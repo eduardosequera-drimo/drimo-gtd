@@ -135,6 +135,10 @@ section{padding:44px 0;scroll-margin-top:var(--sticky-h,120px)}
 .seg-avg .top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px}
 .seg-avg .bar-track{height:16px}
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:middle}
+.bar-row-gtd{background:color-mix(in srgb,var(--brand) 9%,transparent);border-radius:8px;margin-left:-8px;margin-right:-8px;padding:7px 8px}
+.bar-row-gtd .nm{color:var(--ink);font-weight:600}
+.gtd-tag{display:inline-block;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;font-weight:700;letter-spacing:.04em;
+  color:#fff;background:var(--brand);border-radius:4px;padding:1.5px 5px;margin-right:6px;vertical-align:middle}
 
 /* cards */
 .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
@@ -209,8 +213,6 @@ details.deep[open] summary::before{content:"▾ ";}
 .pat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
 
 /* GTD frente a la competencia */
-.gtdvs-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
-@media(max-width:820px){.gtdvs-stats{grid-template-columns:repeat(2,1fr)}}
 #gtdvsCards{display:flex;flex-direction:column;gap:28px}
 .gtdvs-compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:6px;padding:14px;background:var(--bg2);border-radius:12px;border:1px solid var(--line)}
 .gtdvs-item{text-align:center}
@@ -427,8 +429,7 @@ mark{background:color-mix(in srgb,var(--accent) 26%,transparent);color:inherit;p
 <section id="gtdvs" style="border-top:1px solid var(--line)">
   <div class="wrap">
     <div class="sec-title"><h2 class="serif">GTD frente a la competencia</h2></div>
-    <p class="sec-sub">Los tres sitios propios de GTD (Empresas/Corporaciones, Hogar y SecureSoft en ciberseguridad) evaluados con el mismo scorecard de 10 dimensiones, comparados contra el promedio y el mejor de su segmento. No compiten en el ranking de arriba — esta sección existe para ubicar a GTD, no a la competencia.</p>
-    <div class="gtdvs-stats" id="gtdvsStats"></div>
+    <p class="sec-sub">Los tres sitios propios de GTD (Empresas/Corporaciones, Hogar y SecureSoft en ciberseguridad) evaluados con el mismo scorecard de 10 dimensiones, comparados contra el promedio y el mejor de su segmento. También aparecen marcados con la etiqueta <b>GTD</b> dentro del ranking "Puntuación por competidor" del panorama, arriba.</p>
     <div id="gtdvsCards"></div>
   </div>
 </section>
@@ -489,21 +490,27 @@ function renderCompChart(){
   const all=curSeg==='Todos';
   const q=(document.getElementById('q').value||'').toLowerCase().trim();
   const country=document.getElementById('country').value;
-  let scored=DATA.sites.filter(x=>x.status==='ok'&&x.total!=null&&(all||x.segment===curSeg));
-  if(country)scored=scored.filter(s=>s.country===country);
-  if(q)scored=scored.filter(s=>(s.brand+' '+s.country).toLowerCase().includes(q));
-  scored=scored.slice().sort((a,b)=>b.total-a.total);
+  const passFilter=x=>{
+    if(!(all||x.segment===curSeg))return false;
+    if(country&&x.country!==country)return false;
+    if(q&&!(x.brand+' '+x.country).toLowerCase().includes(q))return false;
+    return true;
+  };
+  let scored=DATA.sites.filter(x=>x.status==='ok'&&x.total!=null&&passFilter(x));
+  const gtdRows=(DATA.gtd||[]).filter(x=>x.status==='ok'&&x.total!=null&&passFilter(x));
+  const merged=scored.concat(gtdRows).slice().sort((a,b)=>b.total-a.total);
   const cont=document.getElementById('chartComp');
-  if(!scored.length){cont.innerHTML='<div class="empty" style="padding:24px 0">Sin resultados con estos filtros.</div>';}
-  else cont.innerHTML=scored.map(s=>`
-    <div class="bar-row">
-      <span class="nm" title="${s.brand} · ${s.country} · ${s.segment}"><span class="dot" style="background:${SEGCOLORS[s.segment]}"></span>${s.brand} <span class="mut" style="font-size:10.5px">${s.country}</span></span>
-      <div class="bar-track"><div class="bar-fill" style="width:0;background:${scoreColor(s.total)}" data-w="${s.total}"></div></div>
+  if(!merged.length){cont.innerHTML='<div class="empty" style="padding:24px 0">Sin resultados con estos filtros.</div>';}
+  else cont.innerHTML=merged.map(s=>`
+    <div class="bar-row ${s.is_gtd?'bar-row-gtd':''}">
+      <span class="nm" title="${s.brand} · ${s.country} · ${s.segment}">${s.is_gtd?'<span class="gtd-tag">GTD</span>':`<span class="dot" style="background:${SEGCOLORS[s.segment]}"></span>`}${s.brand} <span class="mut" style="font-size:10.5px">${s.country}</span></span>
+      <div class="bar-track"><div class="bar-fill" style="width:0;background:${s.is_gtd?'var(--brand)':scoreColor(s.total)}" data-w="${s.total}"></div></div>
       <span class="vv">${s.total}</span>
     </div>`).join('');
   const avg=scored.length?Math.round(scored.reduce((a,s)=>a+s.total,0)/scored.length*10)/10:'—';
   const segLbl=all?'todos los segmentos':curSeg;
-  document.getElementById('compNote').textContent=`${scored.length} ${scored.length===1?'sitio':'sitios'} · ${segLbl}${country?' · '+country:''}${q?' · "'+q+'"':''} · promedio ${avg}/100`;
+  const gtdNote=gtdRows.length?` · +${gtdRows.length} GTD`:'';
+  document.getElementById('compNote').textContent=`${scored.length} ${scored.length===1?'sitio':'sitios'} · ${segLbl}${country?' · '+country:''}${q?' · "'+q+'"':''} · promedio ${avg}/100${gtdNote}`;
   animateBars('#chartComp');
 }
 function initCharts(){
@@ -607,15 +614,6 @@ function initGtdSection(){
   const list=DATA.gtd||[];
   const sec=document.getElementById('gtdvs');
   if(!list.length){ if(sec) sec.style.display='none'; return; }
-  const nStrong=list.reduce((a,s)=>a+gtdDeltas(s).filter(x=>x.delta>0.1).length,0);
-  const nWeak=list.reduce((a,s)=>a+gtdDeltas(s).filter(x=>x.delta<-0.1).length,0);
-  const gtdAvg=Math.round(list.reduce((a,s)=>a+s.total,0)/list.length*10)/10;
-  const mktAvg=Math.round(list.reduce((a,s)=>a+((DATA.segAvgs||{})[s.segment]||0),0)/list.length*10)/10;
-  document.getElementById('gtdvsStats').innerHTML=`
-    <div class="stat"><div class="n">${list.length}</div><div class="l">segmentos de GTD evaluados</div></div>
-    <div class="stat"><div class="n">${gtdAvg}<span class="u">/100</span></div><div class="l">puntuación media de GTD</div></div>
-    <div class="stat"><div class="n">${mktAvg}<span class="u">/100</span></div><div class="l">promedio de mercado (mismos segmentos)</div></div>
-    <div class="stat"><div class="n">${nStrong}<span class="u">/${nWeak}</span></div><div class="l">dimensiones por encima / por debajo del promedio</div></div>`;
   document.getElementById('gtdvsCards').innerHTML=list.map(gtdCard).join('');
 }
 function card(s){
