@@ -115,7 +115,7 @@ section{padding:56px 0}
 @media(prefers-reduced-motion:reduce){.stage-node.next::before,.stage-node.next::after{animation:none;display:none}}
 .stage-connector{flex:1;height:2px;background:var(--line);margin-left:3px;min-width:12px}
 .stage-connector.done{background:var(--good)}
-.stage-body{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;flex:1}
+.stage-body{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(0,0,0,.14),0 6px 16px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:8px;flex:1}
 .stage-col.planned .stage-body{opacity:.72}
 .stage-body h3{font-size:14.5px;line-height:1.32}
 .stage-badge{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:999px;flex:none;align-self:flex-start}
@@ -444,7 +444,9 @@ initStageGroups();
 
 function scrollStages(dir){
   const el=document.getElementById('stagesTrack'); if(!el) return;
-  el.scrollBy({left:dir*Math.round(el.clientWidth*0.8),behavior:'smooth'});
+  const card=el.querySelector('.stage-col');
+  const step=card?card.getBoundingClientRect().width+22:Math.round(el.clientWidth*0.4);
+  el.scrollBy({left:dir*Math.round(step*2),behavior:'smooth'});
 }
 function updateStagesNav(){
   const el=document.getElementById('stagesTrack');
