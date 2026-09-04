@@ -93,7 +93,7 @@ section{padding:56px 0}
 .stages-nav:hover{border-color:var(--accent);color:var(--accent)}
 .stages-nav:disabled{opacity:.35;cursor:default;pointer-events:none}
 @media(max-width:640px){.stages-nav{display:none}}
-.stages{display:flex;align-items:stretch;overflow-x:auto;padding:46px 2px 16px;margin:0 -2px;scrollbar-width:none;-ms-overflow-style:none;position:relative;flex:1;min-width:0;cursor:grab;touch-action:pan-y}
+.stages{display:flex;align-items:stretch;overflow-x:auto;padding:46px 2px 16px;margin:0 -2px;scrollbar-width:none;-ms-overflow-style:none;position:relative;flex:1;min-width:0;cursor:grab;touch-action:pan-y;scroll-snap-type:x mandatory}
 .stages.dragging{cursor:grabbing;user-select:none;scroll-snap-type:none}
 .stages.dragging *{pointer-events:none}
 .stages::-webkit-scrollbar{display:none}
@@ -103,7 +103,7 @@ section{padding:56px 0}
 .stage-group .grp-tick{position:absolute;top:18px;width:1px;height:6px;background:var(--line2);opacity:.8}
 .stage-group .grp-tick.l{left:0}
 .stage-group .grp-tick.r{right:0}
-.stage-col{flex:0 0 236px;display:flex;flex-direction:column;padding-right:22px}
+.stage-col{flex:0 0 236px;display:flex;flex-direction:column;padding-right:22px;scroll-snap-align:start}
 .stage-col:last-child{padding-right:2px}
 .stage-node-row{display:flex;align-items:center;width:100%;margin-bottom:14px}
 .stage-node{width:32px;height:32px;border-radius:50%;background:var(--card);border:2px solid var(--line2);display:flex;align-items:center;justify-content:center;
@@ -449,6 +449,15 @@ function scrollStages(dir){
   const step=card?card.getBoundingClientRect().width+22:Math.round(el.clientWidth*0.4);
   el.scrollBy({left:dir*Math.round(step*2),behavior:'smooth'});
 }
+function snapStagesToNearest(){
+  const el=document.getElementById('stagesTrack'); if(!el) return;
+  const cards=[...el.querySelectorAll('.stage-col')]; if(!cards.length) return;
+  const max=el.scrollWidth-el.clientWidth;
+  let best=cards[0],bestDist=Infinity;
+  cards.forEach(c=>{const dist=Math.abs(c.offsetLeft-el.scrollLeft);if(dist<bestDist){bestDist=dist;best=c;}});
+  const target=Math.max(0,Math.min(max,best.offsetLeft));
+  el.scrollTo({left:target,behavior:'smooth'});
+}
 function updateStagesNav(){
   const el=document.getElementById('stagesTrack');
   const prev=document.getElementById('stagesPrev'), next=document.getElementById('stagesNext');
@@ -479,7 +488,10 @@ function updateStagesNav(){
     if(Math.abs(dx)>4)moved=true;
     el.scrollLeft=startScroll-dx;
   });
-  const end=()=>{down=false;el.classList.remove('dragging');};
+  const end=()=>{
+    down=false;el.classList.remove('dragging');
+    if(moved) snapStagesToNearest();
+  };
   el.addEventListener('pointerup',end);
   el.addEventListener('pointercancel',end);
   el.addEventListener('click',e=>{
