@@ -93,9 +93,7 @@ section{padding:56px 0}
 .stages-nav:hover{border-color:var(--accent);color:var(--accent)}
 .stages-nav:disabled{opacity:.35;cursor:default;pointer-events:none}
 @media(max-width:640px){.stages-nav{display:none}}
-.stages{display:flex;align-items:stretch;overflow-x:auto;padding:46px 2px 16px;margin:0 -2px;scrollbar-width:none;-ms-overflow-style:none;position:relative;flex:1;min-width:0;cursor:grab;touch-action:pan-y}
-.stages.dragging{cursor:grabbing;user-select:none}
-.stages.dragging *{pointer-events:none}
+.stages{display:flex;align-items:stretch;overflow-x:auto;padding:46px 2px 16px;margin:0 -2px;scrollbar-width:none;-ms-overflow-style:none;position:relative;flex:1;min-width:0}
 .stages::-webkit-scrollbar{display:none}
 .stage-group{position:absolute;top:0;height:26px;pointer-events:none}
 .stage-group .grp-label{position:absolute;top:0;left:50%;transform:translateX(-50%);font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);white-space:nowrap;opacity:.72}
@@ -469,14 +467,6 @@ function scrollStages(dir){
   const target=Math.max(0,Math.min(max,cards[idx].offsetLeft));
   animateStagesScroll(el,target,520);
 }
-function snapStagesToNearest(){
-  const el=document.getElementById('stagesTrack'); if(!el) return;
-  const cards=[...el.querySelectorAll('.stage-col')]; if(!cards.length) return;
-  const max=el.scrollWidth-el.clientWidth;
-  const idx=nearestCardIndex(el,cards);
-  const target=Math.max(0,Math.min(max,cards[idx].offsetLeft));
-  animateStagesScroll(el,target,420);
-}
 function updateStagesNav(){
   const el=document.getElementById('stagesTrack');
   const prev=document.getElementById('stagesPrev'), next=document.getElementById('stagesNext');
@@ -491,32 +481,6 @@ function updateStagesNav(){
   window.addEventListener('resize',updateStagesNav,{passive:true});
   updateStagesNav();
   setTimeout(updateStagesNav,400);
-})();
-(function initStagesDrag(){
-  const el=document.getElementById('stagesTrack'); if(!el) return;
-  let down=false,moved=false,startX=0,startScroll=0;
-  el.addEventListener('pointerdown',e=>{
-    if(e.pointerType==='mouse'&&e.button!==0)return;
-    if(stagesAnimId){cancelAnimationFrame(stagesAnimId);stagesAnimId=null;}
-    down=true;moved=false;startX=e.clientX;startScroll=el.scrollLeft;
-    el.classList.add('dragging');
-    try{el.setPointerCapture(e.pointerId);}catch(err){}
-  });
-  el.addEventListener('pointermove',e=>{
-    if(!down)return;
-    const dx=e.clientX-startX;
-    if(Math.abs(dx)>4)moved=true;
-    el.scrollLeft=startScroll-dx;
-  });
-  const end=()=>{
-    down=false;el.classList.remove('dragging');
-    if(moved) snapStagesToNearest();
-  };
-  el.addEventListener('pointerup',end);
-  el.addEventListener('pointercancel',end);
-  el.addEventListener('click',e=>{
-    if(moved){e.preventDefault();e.stopPropagation();moved=false;}
-  },true);
 })();
 </script>
 </body>
