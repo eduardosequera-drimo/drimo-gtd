@@ -531,6 +531,19 @@ function setSeg(sg){curSeg=sg;document.querySelectorAll('.seg-btn').forEach(b=>b
 function animateBars(scope){
   requestAnimationFrame(()=>setTimeout(()=>document.querySelectorAll((scope||'')+' .bar-fill').forEach(b=>b.style.width=b.dataset.w+'%'),80));
 }
+function collapseGtdBySite(rows){
+  const bySite={};
+  rows.forEach(r=>{
+    const g=r.site_group||r.id;
+    (bySite[g]=bySite[g]||[]).push(r);
+  });
+  return Object.keys(bySite).map(g=>{
+    const items=bySite[g];
+    if(items.length===1)return items[0];
+    const total=Math.round(items.reduce((a,s)=>a+s.total,0)/items.length);
+    return Object.assign({},items[0],{id:g,brand:g,total,segment:items.map(s=>s.segment).join(' + ')});
+  });
+}
 function renderCompChart(){
   const all=curSeg==='Todos';
   const q=(document.getElementById('q').value||'').toLowerCase().trim();
@@ -542,7 +555,7 @@ function renderCompChart(){
     return true;
   };
   let scored=DATA.sites.filter(x=>x.status==='ok'&&x.total!=null&&passFilter(x));
-  const gtdRows=(DATA.gtd||[]).filter(x=>x.status==='ok'&&x.total!=null&&passFilter(x));
+  const gtdRows=collapseGtdBySite((DATA.gtd||[]).filter(x=>x.status==='ok'&&x.total!=null&&passFilter(x)));
   const merged=scored.concat(gtdRows).slice().sort((a,b)=>b.total-a.total);
   const cont=document.getElementById('chartComp');
   if(!merged.length){cont.innerHTML='<div class="empty" style="padding:24px 0">Sin resultados con estos filtros.</div>';}
