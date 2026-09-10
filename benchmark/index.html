@@ -293,6 +293,22 @@ details.deep[open] summary::before{content:"▾ ";}
 .ia-float{position:fixed;display:none;max-width:260px;z-index:9999;pointer-events:none;
   background:var(--ink);color:var(--bg);border-radius:10px;padding:10px 12px;font-size:11.5px;line-height:1.45;font-weight:500;
   box-shadow:0 14px 40px rgba(0,0,0,.45);border:1px solid color-mix(in srgb,var(--ink) 80%,var(--accent))}
+.src-links{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 20px;margin:0 0 8px;background:var(--bg2);border:1px solid var(--line2);border-radius:12px}
+.src-links-label{font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink2);flex:none}
+.src-card{display:inline-flex;align-items:center;gap:9px;padding:8px 14px;border-radius:10px;border:1px solid var(--line2);background:var(--card);transition:border-color .15s,transform .15s;text-decoration:none}
+.src-card:hover{transform:translateY(-1px);text-decoration:none}
+.src-card .src-dot{width:9px;height:9px;border-radius:50%;flex:none}
+.src-card b{font-size:13px;color:var(--ink);font-weight:700}
+.src-card small{display:block;font-size:10.5px;color:var(--ink2);font-weight:500;margin-top:1px}
+.src-card.b2b{border-color:color-mix(in srgb,var(--b2b) 35%,var(--line2))}
+.src-card.b2b:hover{border-color:var(--b2b)}
+.src-card.b2b .src-dot{background:var(--b2b)}
+.src-card.b2c{border-color:color-mix(in srgb,var(--b2c) 35%,var(--line2))}
+.src-card.b2c:hover{border-color:var(--b2c)}
+.src-card.b2c .src-dot{background:var(--b2c)}
+.src-card.cyber{border-color:color-mix(in srgb,var(--cyber) 35%,var(--line2))}
+.src-card.cyber:hover{border-color:var(--cyber)}
+.src-card.cyber .src-dot{background:var(--cyber)}
 .pat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow);border-top:3px solid var(--accent)}
 .pat h3{margin:0 0 8px;font-size:17px}
 .pat .ins{font-size:13.5px;color:var(--ink);margin:0 0 12px;line-height:1.6}
@@ -451,6 +467,21 @@ mark{background:color-mix(in srgb,var(--accent) 26%,transparent);color:inherit;p
 
 <section id="listado" style="padding-top:8px">
   <div class="wrap">
+    <div class="src-links">
+      <span class="src-links-label">Insumos del benchmark</span>
+      <a class="src-card b2b" href="https://grupogtdlatam.sharepoint.com/:f:/r/sites/Migracion_web_gtd/Documentos/DRIMO%20-%20Entregables/Entregables%20-%20Dise%C3%B1o/Benchmark%20Competitivo%20Global%20-%20Regional/Benchmark%20B2B?d=w1bbf3f90e6354522893d66b6b5943e57&amp;csf=1&amp;web=1&amp;e=yurzhD" target="_blank" rel="noopener">
+        <span class="src-dot"></span>
+        <span><b>B2B</b><small>Carpeta de insumos ↗</small></span>
+      </a>
+      <a class="src-card b2c" href="https://grupogtdlatam.sharepoint.com/:f:/r/sites/Migracion_web_gtd/Documentos/DRIMO%20-%20Entregables/Entregables%20-%20Dise%C3%B1o/Benchmark%20Competitivo%20Global%20-%20Regional/Benchmark%20B2C?d=w78ecda70c5934509bbc2c79c9f2831ec&amp;csf=1&amp;web=1&amp;e=zEUK5H" target="_blank" rel="noopener">
+        <span class="src-dot"></span>
+        <span><b>B2C</b><small>Carpeta de insumos ↗</small></span>
+      </a>
+      <a class="src-card cyber" href="https://grupogtdlatam.sharepoint.com/:f:/r/sites/Migracion_web_gtd/Documentos/DRIMO%20-%20Entregables/Entregables%20-%20Dise%C3%B1o/Benchmark%20Competitivo%20Global%20-%20Regional/Benchmark%20B2C?d=w78ecda70c5934509bbc2c79c9f2831ec&amp;csf=1&amp;web=1&amp;e=zEUK5H" target="_blank" rel="noopener">
+        <span class="src-dot"></span>
+        <span><b>Ciberseguridad</b><small>Carpeta de insumos ↗</small></span>
+      </a>
+    </div>
     <div class="sec-title"><h2 class="serif">Fichas por competidor</h2></div>
     <p class="count-note" id="countNote"></p>
     <div class="cards" id="cards"></div>
