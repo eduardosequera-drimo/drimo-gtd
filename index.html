@@ -77,6 +77,9 @@ section{padding:56px 0}
 .track-label.tech .track-dot{background:#0891b2}
 .track-sub{color:var(--ink2);margin:0 0 28px;max-width:680px;line-height:1.6;font-size:13.5px}
 .track-block{margin-top:36px}
+.stage-legend{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;margin:0 0 28px;padding:14px 18px;background:var(--bg2);border:1px solid var(--line2);border-radius:12px}
+.stage-legend-label{font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink2);flex:none}
+.stage-legend-item{display:inline-flex;align-items:center;gap:6px;cursor:help}
 
 .team-block{margin-bottom:30px}
 .team-block:last-child{margin-bottom:0}
@@ -186,6 +189,23 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
   <div class="wrap">
     <div class="sec-title"><span class="sec-num">01</span><h2>Etapas del proyecto</h2></div>
     <p class="sec-sub">El roadmap completo de investigación y diseño. Cada etapa completada enlaza a su entregable propio.</p>
+    <div class="stage-legend">
+      <span class="stage-legend-label">Estados de etapa</span>
+      <span class="stage-legend-item" data-note="La etapa está en el roadmap, pero todavía no comenzó.">
+        <span class="stage-badge planned">Planificada</span>
+      </span>
+      <span class="stage-legend-item" data-note="Es la etapa en la que el equipo está trabajando en este momento.">
+        <span class="stage-badge next">Etapa actual</span>
+      </span>
+      <span class="stage-legend-item" data-note="El trabajo interno ya terminó, pero todavía no tiene fecha de cierre formal con el equipo de GTD.">
+        <span class="stage-badge done">Completada</span>
+        <span class="stage-badge pending">No entregada</span>
+      </span>
+      <span class="stage-legend-item" data-note="La etapa terminó y fue formalmente entregada a GTD, con fecha de cierre confirmada.">
+        <span class="stage-badge done">Completada</span>
+        <span class="stage-badge delivered">Entregada</span>
+      </span>
+    </div>
     <div class="track-label design"><span class="track-dot"></span>Track de diseño</div>
   </div>
   <div class="stages-outer">
