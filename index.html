@@ -101,11 +101,11 @@ section{padding:56px 0}
 .stage-group .grp-tick{position:absolute;top:18px;width:1px;height:6px;background:var(--line2);opacity:.8}
 .stage-group .grp-tick.l{left:0}
 .stage-group .grp-tick.r{right:0}
-.stage-col{flex:0 0 236px;display:flex;flex-direction:column;padding-right:22px}
+.stage-col{flex:0 0 270px;display:flex;flex-direction:column;padding-right:24px}
 .stage-col:last-child{padding-right:2px}
 .stage-node-row{display:flex;align-items:center;width:100%;margin-bottom:14px}
-.stage-node{width:32px;height:32px;border-radius:50%;background:var(--card);border:2px solid var(--line2);display:flex;align-items:center;justify-content:center;
-  font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;color:var(--ink2);flex:none;z-index:1}
+.stage-node{width:34px;height:34px;border-radius:50%;background:var(--card);border:2px solid var(--line2);display:flex;align-items:center;justify-content:center;
+  font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:700;color:var(--ink2);flex:none;z-index:1}
 .stage-node.done{background:var(--good);border-color:var(--good);color:#fff}
 .stage-node.next{background:var(--card);border-color:var(--accent);color:var(--accent);position:relative}
 .stage-node.next::before,.stage-node.next::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent);animation:stage-pulse 2.2s cubic-bezier(0.3,0,0.4,1) infinite}
@@ -114,20 +114,26 @@ section{padding:56px 0}
 @media(prefers-reduced-motion:reduce){.stage-node.next::before,.stage-node.next::after{animation:none;display:none}}
 .stage-connector{flex:1;height:2px;background:var(--line);margin-left:3px;min-width:12px}
 .stage-connector.done{background:var(--good)}
-.stage-body{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(0,0,0,.14),0 6px 16px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:8px;flex:1}
+.stage-body{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:0 1px 2px rgba(0,0,0,.14),0 6px 16px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:10px;flex:1}
 .stage-col.planned .stage-body{opacity:.72}
-.stage-body h3{font-size:14.5px;line-height:1.32}
-.stage-badge{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:999px;flex:none;align-self:flex-start}
+.stage-body h3{font-size:16px;line-height:1.32}
+.stage-badge{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3.5px 10px;border-radius:999px;flex:none;align-self:flex-start}
 .stage-badge.done{color:var(--good);background:color-mix(in srgb,var(--good) 15%,transparent);border:1px solid color-mix(in srgb,var(--good) 35%,transparent)}
 .stage-badge.next{color:var(--accent);background:color-mix(in srgb,var(--brand) 15%,transparent);border:1px solid color-mix(in srgb,var(--brand) 35%,transparent)}
 .stage-badge.planned{color:var(--ink2);background:var(--bg2);border:1px solid var(--line2)}
 .stage-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
 .stage-tag{font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
   padding:3px 8px;border-radius:999px;color:var(--accent);background:color-mix(in srgb,var(--brand) 10%,transparent);border:1px solid color-mix(in srgb,var(--brand) 28%,transparent)}
-.stage-desc{font-size:12.5px;color:var(--ink2);line-height:1.55;margin:0;flex:1}
-.stage-cta{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:2px;font-size:12.5px;font-weight:700;color:#fff;
-  background:linear-gradient(135deg,var(--brand),var(--accent2));padding:8px 14px;border-radius:9px;box-shadow:0 4px 14px color-mix(in srgb,var(--brand) 40%,transparent);transition:transform .15s,box-shadow .15s}
+.stage-desc{font-size:13.5px;color:var(--ink2);line-height:1.58;margin:0;flex:1}
+.stage-cta{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:2px;font-size:13px;font-weight:700;color:#fff;
+  background:linear-gradient(135deg,var(--brand),var(--accent2));padding:9px 16px;border-radius:9px;box-shadow:0 4px 14px color-mix(in srgb,var(--brand) 40%,transparent);transition:transform .15s,box-shadow .15s}
 .stage-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px color-mix(in srgb,var(--brand) 50%,transparent);text-decoration:none}
+.stage-actions{display:flex;flex-direction:column;gap:6px;margin-top:2px}
+.stage-actions .stage-cta{margin-top:0}
+.stage-cta.disabled{background:var(--bg2);color:var(--ink2);box-shadow:none;border:1px solid var(--line2);cursor:not-allowed;pointer-events:none;opacity:.65}
+.stage-cta.disabled:hover{transform:none;box-shadow:none}
+.stage-delivered{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;color:var(--good);margin-top:2px}
+.stage-delivered .tick{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--good);color:#fff;font-size:9px;flex:none}
 
 footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-size:12px}
 .foot-in{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -176,8 +182,10 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
         <span class="stage-badge done">Completada</span>
         <h3>1. Research con stakeholders</h3>
         <p class="stage-desc">Levantamiento cualitativo con +25 personas de las 4 unidades de negocio de GTD (Empresas, Corporaciones, Secure Soft, Residencial): 12 dolores identificados que alimentan la arquitectura del nuevo ecosistema digital.</p>
-        
-        <a class="stage-cta" href="/research">Ver informe →</a>
+        <div class="stage-actions">
+          <a class="stage-cta" href="/research">Ver informe →</a>
+          <a class="stage-cta" href="https://docs.google.com/presentation/d/1GXv5lQ6GEuP37SDchCJeaiMVIQVDaQnYHUrcF3qm9J4/edit?usp=sharing" target="_blank" rel="noopener">Ver entregable →</a>
+        </div>
       </div>
     </div>
 <div class="stage-col done">
@@ -189,8 +197,10 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
         <span class="stage-badge done">Completada</span>
         <h3>2. Benchmark de competidores</h3>
         <p class="stage-desc">Auditoría de 38 sitios de la competencia regional en B2B, B2C y Ciberseguridad, con scorecard de 10 dimensiones, biblioteca de patrones y diagnóstico de GTD frente al mercado.</p>
-        
-        <a class="stage-cta" href="/benchmark">Ver informe →</a>
+        <div class="stage-actions">
+          <a class="stage-cta" href="/benchmark">Ver informe →</a>
+          <a class="stage-cta" href="/benchmark">Ver entregable →</a>
+        </div>
       </div>
     </div>
 <div class="stage-col next">
@@ -200,23 +210,27 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
       </div>
       <div class="stage-body">
         <span class="stage-badge next">Siguiente etapa</span>
-        <h3>3. Arquitectura de información</h3>
-        <p class="stage-desc">Definición de la taxonomía, navegación y jerarquía de contenido para los sitios de GTD, a partir de los hallazgos del research y el benchmark.</p>
-        
-        
+        <h3>3. Usuarios sintéticos</h3>
+        <p class="stage-desc">Modelado de arquetipos de usuario basados en IA para optimizar y acotar la investigación antes de las entrevistas reales.</p>
+        <div class="stage-actions">
+          <span class="stage-cta disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
       </div>
     </div>
-<div class="stage-col next">
+<div class="stage-col planned">
       <div class="stage-node-row">
-        <span class="stage-node next" data-n="4">4</span>
+        <span class="stage-node " data-n="4">4</span>
         <span class="stage-connector "></span>
       </div>
       <div class="stage-body">
-        <span class="stage-badge next">Siguiente etapa</span>
-        <h3>4. Usuarios sintéticos</h3>
-        <p class="stage-desc">Modelado de arquetipos de usuario basados en IA para optimizar y acotar la investigación antes de las entrevistas reales.</p>
-        
-        
+        <span class="stage-badge planned">Planificada</span>
+        <h3>4. Estrategia de marketing y comercial</h3>
+        <p class="stage-desc">Lineamientos de mensaje, propuesta de valor y prioridades comerciales que van a guiar el tono y el contenido de los sitios de GTD.</p>
+        <div class="stage-actions">
+          <span class="stage-cta disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
       </div>
     </div>
 <div class="stage-col planned">
@@ -226,10 +240,12 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
       </div>
       <div class="stage-body">
         <span class="stage-badge planned">Planificada</span>
-        <h3>5. Wireframes</h3>
-        <p class="stage-desc">Esqueletos de baja y alta fidelidad de las pantallas clave, validando flujos antes de invertir en diseño visual.</p>
-        
-        
+        <h3>5. Entrevistas: Card Sorting – Tree Testing</h3>
+        <p class="stage-desc">Sesiones con usuarios reales para validar cómo agrupan y esperan encontrar el contenido — la instancia de entrevistas y test de usabilidad del proyecto.</p>
+        <div class="stage-actions">
+          <span class="stage-cta disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
       </div>
     </div>
 <div class="stage-col planned">
@@ -239,10 +255,12 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
       </div>
       <div class="stage-body">
         <span class="stage-badge planned">Planificada</span>
-        <h3>6. Entrevistas / Test de Usabilidad</h3>
-        <p class="stage-desc">Validación de los wireframes con usuarios reales para detectar fricciones antes de pasar a diseño visual, aprovechando cada instancia disponible para levantar información adicional dado que los usuarios no siempre están 100% disponibles.</p>
-        <div class="stage-tags"><span class="stage-tag">Journeys</span><span class="stage-tag">User Personas</span></div>
-        
+        <h3>6. Arquitectura de información V.1</h3>
+        <p class="stage-desc">Definición de la taxonomía, navegación y jerarquía de contenido para los sitios de GTD, a partir de los hallazgos del research y el benchmark.</p>
+        <div class="stage-actions">
+          <span class="stage-cta disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
       </div>
     </div>
 <div class="stage-col planned">
@@ -252,10 +270,12 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
       </div>
       <div class="stage-body">
         <span class="stage-badge planned">Planificada</span>
-        <h3>7. Diseño visual (UI)</h3>
-        <p class="stage-desc">Sistema de diseño y pantallas de alta fidelidad para los sitios de GTD, sobre la arquitectura y los wireframes validados.</p>
-        
-        
+        <h3>7. Auditoría de contenido</h3>
+        <p class="stage-desc">Revisión del contenido actual de los sitios de GTD para detectar qué se mantiene, qué se reescribe y qué falta, antes de definir el tono de voz.</p>
+        <div class="stage-actions">
+          <span class="stage-cta disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
       </div>
     </div>
 <div class="stage-col planned">
@@ -265,23 +285,102 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
       </div>
       <div class="stage-body">
         <span class="stage-badge planned">Planificada</span>
-        <h3>8. Diseño técnico (TL)</h3>
-        <p class="stage-desc">Arquitectura técnica, modelo de datos y contratos de API, con especificación de las integraciones y estrategia de CI/CD — a cargo del Technical Lead que luego lidera el desarrollo.</p>
-        
-        
+        <h3>8. User Persona</h3>
+        <p class="stage-desc">Arquetipos de usuario construidos a partir de las entrevistas y el card sorting, para representar a los distintos perfiles que navegan los sitios de GTD.</p>
+        <div class="stage-actions">
+          <span class="stage-cta disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
       </div>
     </div>
 <div class="stage-col planned">
       <div class="stage-node-row">
         <span class="stage-node " data-n="9">9</span>
-        
+        <span class="stage-connector "></span>
       </div>
       <div class="stage-body">
         <span class="stage-badge planned">Planificada</span>
-        <h3>9. Variantes de diseño (5 sitios)</h3>
-        <p class="stage-desc">Adaptación del sistema de diseño a las 5 propiedades digitales de GTD.</p>
-        
-        
+        <h3>9. Journey</h3>
+        <p class="stage-desc">Mapeo del recorrido de cada persona desde que descubre una necesidad hasta que toma una decisión, para detectar fricciones antes de diseñar.</p>
+        <div class="stage-actions">
+          <span class="stage-cta disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
+      </div>
+    </div>
+<div class="stage-col planned">
+      <div class="stage-node-row">
+        <span class="stage-node " data-n="10">10</span>
+        <span class="stage-connector "></span>
+      </div>
+      <div class="stage-body">
+        <span class="stage-badge planned">Planificada</span>
+        <h3>10. Revisión y mejora del sistema de diseño existente</h3>
+        <p class="stage-desc">Auditoría de los componentes y patrones visuales actuales de GTD, para decidir qué se conserva y qué se rediseña en el nuevo sistema.</p>
+        <div class="stage-actions">
+          <span class="stage-cta disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
+      </div>
+    </div>
+<div class="stage-col planned">
+      <div class="stage-node-row">
+        <span class="stage-node " data-n="11">11</span>
+        <span class="stage-connector "></span>
+      </div>
+      <div class="stage-body">
+        <span class="stage-badge planned">Planificada</span>
+        <h3>11. Definición de contenidos y tono de voz</h3>
+        <p class="stage-desc">Lineamientos de tono, vocabulario y estructura de contenido que se van a aplicar de forma consistente en todos los sitios de GTD.</p>
+        <div class="stage-actions">
+          <span class="stage-cta disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
+      </div>
+    </div>
+<div class="stage-col planned">
+      <div class="stage-node-row">
+        <span class="stage-node " data-n="12">12</span>
+        <span class="stage-connector "></span>
+      </div>
+      <div class="stage-body">
+        <span class="stage-badge planned">Planificada</span>
+        <h3>12. Wireflows + wireframes de baja fidelidad</h3>
+        <p class="stage-desc">Esqueletos de baja fidelidad y flujos de las pantallas clave, para validar la lógica de navegación antes de invertir en diseño visual.</p>
+        <div class="stage-actions">
+          <span class="stage-cta disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
+      </div>
+    </div>
+<div class="stage-col planned">
+      <div class="stage-node-row">
+        <span class="stage-node " data-n="13">13</span>
+        <span class="stage-connector "></span>
+      </div>
+      <div class="stage-body">
+        <span class="stage-badge planned">Planificada</span>
+        <h3>13. Diseño visual</h3>
+        <p class="stage-desc">Sistema de diseño y pantallas de alta fidelidad para los sitios de GTD, sobre la arquitectura y los wireframes validados.</p>
+        <div class="stage-actions">
+          <span class="stage-cta disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
+      </div>
+    </div>
+<div class="stage-col planned">
+      <div class="stage-node-row">
+        <span class="stage-node " data-n="14">14</span>
+
+      </div>
+      <div class="stage-body">
+        <span class="stage-badge planned">Planificada</span>
+        <h3>14. KIT UI</h3>
+        <p class="stage-desc">Librería de componentes de interfaz documentada y lista para el desarrollo, consolidando el sistema de diseño visual.</p>
+        <div class="stage-actions">
+          <span class="stage-cta disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
       </div>
     </div></div>
       <button class="stages-nav next" id="stagesNext" onclick="scrollStages(1)" aria-label="Etapas siguientes">›</button>
@@ -431,7 +530,7 @@ function initBgFx(){
 initBgFx();
 
 function initStageGroups(){
-  const groups=[{from:1,to:6,label:'Research UX'}];
+  const groups=[{from:1,to:12,label:'Research UX'}];
   const stages=document.querySelector('.stages');
   if(!stages) return;
   const sRect=stages.getBoundingClientRect();
