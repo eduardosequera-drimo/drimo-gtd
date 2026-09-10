@@ -137,6 +137,8 @@ section{padding:56px 0}
 .stage-cta.disabled:hover{transform:none;box-shadow:none;border-color:var(--line2);color:var(--ink2)}
 .stage-delivered{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;color:var(--good);margin-top:2px}
 .stage-delivered .tick{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--good);color:#fff;font-size:9px;flex:none}
+.stage-delivered.pending{color:var(--ink2);cursor:help}
+.stage-delivered.pending .tick{background:transparent;border:1.5px solid var(--line2);color:var(--ink2);font-size:8px}
 
 footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-size:12px}
 .foot-in{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -191,6 +193,9 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
           <a class="stage-cta secondary" href="/research">Ver informe →</a>
           <a class="stage-cta primary" href="https://docs.google.com/presentation/d/1GXv5lQ6GEuP37SDchCJeaiMVIQVDaQnYHUrcF3qm9J4/edit?usp=sharing" target="_blank" rel="noopener">Ver entregable →</a>
         </div>
+        <span class="stage-delivered pending" title="Ya tiene entregable disponible, pero todavía no tiene fecha de cierre: falta el hito formal de entrega con GTD.">
+          <span class="tick">○</span> Entrega pendiente de fecha
+        </span>
       </div>
     </div>
 <div class="stage-col done">
