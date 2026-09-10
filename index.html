@@ -79,7 +79,7 @@ section{padding:56px 0}
 .track-block{margin-top:36px}
 .stage-legend{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;margin:0 0 28px;padding:14px 18px;background:var(--bg2);border:1px solid var(--line2);border-radius:12px}
 .stage-legend-label{font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink2);flex:none}
-.stage-legend-item{display:inline-flex;align-items:center;gap:6px;cursor:help;position:relative}
+.stage-legend-item{display:inline-flex;align-items:center;gap:6px;position:relative}
 .stage-legend-item:not(:first-of-type)::before{content:'';position:absolute;left:-11px;top:50%;transform:translateY(-50%);width:1px;height:22px;background:var(--line2)}
 @media(max-width:640px){.stage-legend-item::before{display:none}}
 
@@ -135,7 +135,7 @@ section{padding:56px 0}
 .stage-badge.done{color:var(--good);background:color-mix(in srgb,var(--good) 15%,transparent);border:1px solid color-mix(in srgb,var(--good) 35%,transparent)}
 .stage-badge.next{color:var(--accent);background:color-mix(in srgb,var(--brand) 15%,transparent);border:1px solid color-mix(in srgb,var(--brand) 35%,transparent)}
 .stage-badge.planned{color:var(--ink2);background:var(--bg2);border:1px solid var(--line2)}
-.stage-badge.pending{color:var(--mid);background:color-mix(in srgb,var(--mid) 15%,transparent);border:1px solid color-mix(in srgb,var(--mid) 35%,transparent);cursor:help}
+.stage-badge.pending{color:var(--mid);background:color-mix(in srgb,var(--mid) 15%,transparent);border:1px solid color-mix(in srgb,var(--mid) 35%,transparent)}
 .stage-badge.delivered{color:var(--good);background:color-mix(in srgb,var(--good) 15%,transparent);border:1px solid color-mix(in srgb,var(--good) 35%,transparent)}
 .stage-badge-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;align-self:flex-start}
 .hub-tip{position:fixed;display:none;max-width:260px;z-index:9999;pointer-events:none;
