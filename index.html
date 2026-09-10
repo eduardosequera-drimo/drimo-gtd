@@ -125,6 +125,9 @@ section{padding:56px 0}
 .stage-badge.pending{color:var(--mid);background:color-mix(in srgb,var(--mid) 15%,transparent);border:1px solid color-mix(in srgb,var(--mid) 35%,transparent);cursor:help}
 .stage-badge.delivered{color:var(--good);background:color-mix(in srgb,var(--good) 15%,transparent);border:1px solid color-mix(in srgb,var(--good) 35%,transparent)}
 .stage-badge-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;align-self:flex-start}
+.hub-tip{position:fixed;display:none;max-width:260px;z-index:9999;pointer-events:none;
+  background:var(--ink);color:var(--bg);border-radius:10px;padding:10px 12px;font-size:11.5px;line-height:1.45;font-weight:500;
+  box-shadow:0 14px 40px rgba(0,0,0,.45);border:1px solid color-mix(in srgb,var(--ink) 80%,var(--accent))}
 .stage-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
 .stage-tag{font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
   padding:3px 8px;border-radius:999px;color:var(--accent);background:color-mix(in srgb,var(--brand) 10%,transparent);border:1px solid color-mix(in srgb,var(--brand) 28%,transparent)}
@@ -187,7 +190,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
       <div class="stage-body">
         <div class="stage-badge-row">
           <span class="stage-badge done">Completada</span>
-          <span class="stage-badge pending" title="La etapa está en espera del hito formal de cierre con el equipo de GTD: la entrega aún no tiene fecha confirmada.">Entregada</span>
+          <span class="stage-badge pending" data-note="La etapa está en espera del hito formal de cierre con el equipo de GTD: la entrega aún no tiene fecha confirmada.">Entregada</span>
         </div>
         <h3>1. Research con stakeholders</h3>
         <p class="stage-desc">Levantamiento cualitativo con +25 personas de las 4 unidades de negocio de GTD (Empresas, Corporaciones, Secure Soft, Residencial): 12 dolores identificados que alimentan la arquitectura del nuevo ecosistema digital.</p>
@@ -560,6 +563,25 @@ function initStageGroups(){
   });
 }
 initStageGroups();
+
+function positionHubTip(tip,el){
+  const r=el.getBoundingClientRect(); const tw=tip.offsetWidth, th=tip.offsetHeight;
+  let left=Math.max(10,Math.min(r.left+r.width/2-tw/2, window.innerWidth-tw-10));
+  let top=r.top-th-10; if(top<10) top=r.bottom+10;
+  tip.style.left=left+'px'; tip.style.top=top+'px';
+}
+function initHubTips(){
+  let tip=document.getElementById('hubFloat');
+  if(!tip){tip=document.createElement('div');tip.id='hubFloat';tip.className='hub-tip';document.body.appendChild(tip);}
+  const show=el=>{tip.textContent=el.dataset.note;tip.style.display='block';positionHubTip(tip,el);};
+  const hide=()=>{tip.style.display='none';};
+  document.querySelectorAll('[data-note]').forEach(el=>{
+    el.addEventListener('mouseenter',()=>show(el));
+    el.addEventListener('mouseleave',hide);
+  });
+  window.addEventListener('scroll',hide,{passive:true});
+}
+initHubTips();
 
 function easeOutCubic(t){return 1-Math.pow(1-t,3);}
 let stagesAnimId=null;
