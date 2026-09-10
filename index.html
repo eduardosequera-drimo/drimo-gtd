@@ -69,6 +69,14 @@ section{padding:56px 0}
 .sec-title h2{font-size:24px}
 .sec-num{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--accent);font-weight:600}
 .sec-sub{color:var(--ink2);margin:0 0 32px;max-width:680px;line-height:1.6}
+.track-label{display:flex;align-items:center;gap:8px;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 6px}
+.track-label .track-dot{width:8px;height:8px;border-radius:50%;flex:none}
+.track-label.design{color:var(--accent)}
+.track-label.design .track-dot{background:var(--accent)}
+.track-label.tech{color:#0891b2}
+.track-label.tech .track-dot{background:#0891b2}
+.track-sub{color:var(--ink2);margin:0 0 28px;max-width:680px;line-height:1.6;font-size:13.5px}
+.track-block{margin-top:36px}
 
 .team-block{margin-bottom:30px}
 .team-block:last-child{margin-bottom:0}
@@ -178,10 +186,11 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
   <div class="wrap">
     <div class="sec-title"><span class="sec-num">01</span><h2>Etapas del proyecto</h2></div>
     <p class="sec-sub">El roadmap completo de investigación y diseño. Cada etapa completada enlaza a su entregable propio.</p>
+    <div class="track-label design"><span class="track-dot"></span>Track de diseño</div>
   </div>
   <div class="stages-outer">
     <div class="stages-wrap">
-      <button class="stages-nav prev" id="stagesPrev" onclick="scrollStages(-1)" aria-label="Etapas anteriores">‹</button>
+      <button class="stages-nav prev" id="stagesPrev" onclick="scrollStages(-1,'stagesTrack')" aria-label="Etapas anteriores">‹</button>
       <div class="stages" id="stagesTrack"><div class="stage-col done">
       <div class="stage-node-row">
         <span class="stage-node done" data-n="1">✓</span>
@@ -398,7 +407,107 @@ footer{border-top:1px solid var(--line);padding:34px 0;color:var(--ink2);font-si
         </div>
       </div>
     </div></div>
-      <button class="stages-nav next" id="stagesNext" onclick="scrollStages(1)" aria-label="Etapas siguientes">›</button>
+      <button class="stages-nav next" id="stagesNext" onclick="scrollStages(1,'stagesTrack')" aria-label="Etapas siguientes">›</button>
+    </div>
+  </div>
+  <div class="wrap track-block">
+    <div class="track-label tech"><span class="track-dot"></span>Track técnico</div>
+    <p class="track-sub">Contenido de prueba — se actualizará con las etapas y entregables reales del área técnica.</p>
+  </div>
+  <div class="stages-outer">
+    <div class="stages-wrap">
+      <button class="stages-nav prev" id="stagesPrevTech" onclick="scrollStages(-1,'stagesTrackTech')" aria-label="Etapas técnicas anteriores">‹</button>
+      <div class="stages" id="stagesTrackTech"><div class="stage-col planned">
+      <div class="stage-node-row">
+        <span class="stage-node " data-n="1">1</span>
+        <span class="stage-connector "></span>
+      </div>
+      <div class="stage-body">
+        <span class="stage-badge planned">Planificada</span>
+        <h3>Etapa 1</h3>
+        <p class="stage-desc">Contenido de prueba — se actualizará con el roadmap real del área técnica.</p>
+        <div class="stage-actions">
+          <span class="stage-cta secondary disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta primary disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
+      </div>
+    </div>
+<div class="stage-col planned">
+      <div class="stage-node-row">
+        <span class="stage-node " data-n="2">2</span>
+        <span class="stage-connector "></span>
+      </div>
+      <div class="stage-body">
+        <span class="stage-badge planned">Planificada</span>
+        <h3>Etapa 2</h3>
+        <p class="stage-desc">Contenido de prueba — se actualizará con el roadmap real del área técnica.</p>
+        <div class="stage-actions">
+          <span class="stage-cta secondary disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta primary disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
+      </div>
+    </div>
+<div class="stage-col planned">
+      <div class="stage-node-row">
+        <span class="stage-node " data-n="3">3</span>
+        <span class="stage-connector "></span>
+      </div>
+      <div class="stage-body">
+        <span class="stage-badge planned">Planificada</span>
+        <h3>Etapa 3</h3>
+        <p class="stage-desc">Contenido de prueba — se actualizará con el roadmap real del área técnica.</p>
+        <div class="stage-actions">
+          <span class="stage-cta secondary disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta primary disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
+      </div>
+    </div>
+<div class="stage-col planned">
+      <div class="stage-node-row">
+        <span class="stage-node " data-n="4">4</span>
+        <span class="stage-connector "></span>
+      </div>
+      <div class="stage-body">
+        <span class="stage-badge planned">Planificada</span>
+        <h3>Etapa 4</h3>
+        <p class="stage-desc">Contenido de prueba — se actualizará con el roadmap real del área técnica.</p>
+        <div class="stage-actions">
+          <span class="stage-cta secondary disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta primary disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
+      </div>
+    </div>
+<div class="stage-col planned">
+      <div class="stage-node-row">
+        <span class="stage-node " data-n="5">5</span>
+        <span class="stage-connector "></span>
+      </div>
+      <div class="stage-body">
+        <span class="stage-badge planned">Planificada</span>
+        <h3>Etapa 5</h3>
+        <p class="stage-desc">Contenido de prueba — se actualizará con el roadmap real del área técnica.</p>
+        <div class="stage-actions">
+          <span class="stage-cta secondary disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta primary disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
+      </div>
+    </div>
+<div class="stage-col planned">
+      <div class="stage-node-row">
+        <span class="stage-node " data-n="6">6</span>
+
+      </div>
+      <div class="stage-body">
+        <span class="stage-badge planned">Planificada</span>
+        <h3>Etapa 6</h3>
+        <p class="stage-desc">Contenido de prueba — se actualizará con el roadmap real del área técnica.</p>
+        <div class="stage-actions">
+          <span class="stage-cta secondary disabled" aria-disabled="true">Ver informe →</span>
+          <span class="stage-cta primary disabled" aria-disabled="true">Ver entregable →</span>
+        </div>
+      </div>
+    </div></div>
+      <button class="stages-nav next" id="stagesNextTech" onclick="scrollStages(1,'stagesTrackTech')" aria-label="Etapas técnicas siguientes">›</button>
     </div>
   </div>
 </section>
@@ -587,46 +696,48 @@ function initHubTips(){
 initHubTips();
 
 function easeOutCubic(t){return 1-Math.pow(1-t,3);}
-let stagesAnimId=null;
 function animateStagesScroll(el,target,duration){
-  if(stagesAnimId) cancelAnimationFrame(stagesAnimId);
+  if(el._stagesAnimId) cancelAnimationFrame(el._stagesAnimId);
   const start=el.scrollLeft,dist=target-start,t0=performance.now();
   if(Math.abs(dist)<1) return;
   function step(now){
     const t=Math.min(1,(now-t0)/duration);
     el.scrollLeft=start+dist*easeOutCubic(t);
-    stagesAnimId=(t<1)?requestAnimationFrame(step):null;
+    el._stagesAnimId=(t<1)?requestAnimationFrame(step):null;
   }
-  stagesAnimId=requestAnimationFrame(step);
+  el._stagesAnimId=requestAnimationFrame(step);
 }
 function nearestCardIndex(el,cards){
   let best=0,bestDist=Infinity;
   cards.forEach((c,i)=>{const dist=Math.abs(c.offsetLeft-el.scrollLeft);if(dist<bestDist){bestDist=dist;best=i;}});
   return best;
 }
-function scrollStages(dir){
-  const el=document.getElementById('stagesTrack'); if(!el) return;
+function scrollStages(dir,trackId){
+  const el=document.getElementById(trackId||'stagesTrack'); if(!el) return;
   const cards=[...el.querySelectorAll('.stage-col')]; if(!cards.length) return;
   const max=el.scrollWidth-el.clientWidth;
   const idx=Math.max(0,Math.min(cards.length-1,nearestCardIndex(el,cards)+dir*2));
   const target=Math.max(0,Math.min(max,cards[idx].offsetLeft));
   animateStagesScroll(el,target,520);
 }
-function updateStagesNav(){
-  const el=document.getElementById('stagesTrack');
-  const prev=document.getElementById('stagesPrev'), next=document.getElementById('stagesNext');
+function updateStagesNav(trackId,prevId,nextId){
+  const el=document.getElementById(trackId);
+  const prev=document.getElementById(prevId), next=document.getElementById(nextId);
   if(!el||!prev||!next) return;
   const max=el.scrollWidth-el.clientWidth;
   prev.disabled=el.scrollLeft<=2;
   next.disabled=el.scrollLeft>=max-2;
 }
-(function initStagesNav(){
-  const el=document.getElementById('stagesTrack'); if(!el) return;
-  el.addEventListener('scroll',updateStagesNav,{passive:true});
-  window.addEventListener('resize',updateStagesNav,{passive:true});
-  updateStagesNav();
-  setTimeout(updateStagesNav,400);
-})();
+function initStagesNav(trackId,prevId,nextId){
+  const el=document.getElementById(trackId); if(!el) return;
+  const upd=()=>updateStagesNav(trackId,prevId,nextId);
+  el.addEventListener('scroll',upd,{passive:true});
+  window.addEventListener('resize',upd,{passive:true});
+  upd();
+  setTimeout(upd,400);
+}
+initStagesNav('stagesTrack','stagesPrev','stagesNext');
+initStagesNav('stagesTrackTech','stagesPrevTech','stagesNextTech');
 </script>
 </body>
 </html>
